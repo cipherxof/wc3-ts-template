@@ -1,0 +1,30 @@
+{
+    "compilerOptions": {
+      "target": "es6",
+      "lib": ["es6"],
+      "strict": true,
+      "noImplicitAny" : true,
+      "noImplicitThis" : true,
+      "alwaysStrict" : true,
+      "strictNullChecks" : true,
+      "outDir": "src",
+      "types": [
+        "lua-types/core/coroutine",
+        "lua-types/core/global",
+        "lua-types/core/math",
+        "lua-types/core/metatable",
+        "lua-types/core/modules",
+        "lua-types/core/string",
+        "lua-types/core/table",
+        "lua-types/core/debug",
+        "lua-types/core/os",
+        "lua-types/special/5.3"
+      ]
+    },
+    "include": ["src-ts"],
+    "tstl": {
+      "luaTarget": "5.3",
+      "noHeader": true,
+      "luaLibImport": "require"
+    }
+  }

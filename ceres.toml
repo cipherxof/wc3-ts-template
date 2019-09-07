@@ -1,0 +1,4 @@
+[run]
+# if you're using backslashes, double them
+wc3_start_command = "C:\\Program Files\\Warcraft III\\x86_64\\Warcraft III.exe"
+window_mode = "windowed"

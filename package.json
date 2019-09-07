@@ -1,0 +1,29 @@
+{
+  "name": "ts-template",
+  "version": "1.0.0",
+  "description": "",
+  "author": "TriggerHappy",
+  "license": "MIT",
+  "main": "src-ts/main.ts",
+  "scripts": {
+    "test": "node build.js && tstl -p tsconfig.json --rootDir \"src-ts\" && \"bin/ceres\" run map.w3x",
+    "build": "node build.js && tstl -p tsconfig.json --rootDir \"src-ts\" && \"bin/ceres\" build map.w3x",
+    "dev": "npm-watch",
+    "build:defs": "node build.js"
+  },
+  "watch": {
+    "build:defs": {
+      "patterns": ["./maps/map.w3x"],
+      "extensions": "lua",
+      "legacyWatch": true
+    }
+  },
+  "dependencies": {
+    "npm-watch": "^0.6.0",
+    "typescript-to-lua": "^0.27.1",
+    "war3tstlhelper": "^1.0.0"
+  },
+  "devDependencies": {
+    "lua-types": "^2.6.1"
+  }
+}
