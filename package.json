@@ -6,9 +6,8 @@
   "license": "MIT",
   "main": "src-ts/main.ts",
   "scripts": {
-    "test": "tstl -p tsconfig.json --rootDir \"src-ts\" && node bin/operations run target/map.w3x",
+    "test": "tstl -p tsconfig.json --rootDir \"src-ts\" && node bin/operations build map.w3x && node bin/operations run target/map.w3x",
     "build": "tstl -p tsconfig.json --rootDir \"src-ts\" && node bin/operations build map.w3x",
-    "build-test": "tstl -p tsconfig.json --rootDir \"src-ts\" && node bin/operations build map.w3x && node bin/operations run target/map.w3x",
     "dev": "npm-watch",
     "build:defs": "node bin/operations gen-defs"
   },
