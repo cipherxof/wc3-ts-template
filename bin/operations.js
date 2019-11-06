@@ -20,10 +20,11 @@ switch (operation) {
     fs.writeFileSync("ceres.toml", '[run]\nwc3_start_command=""');
 
     // build war3map.lua with ceres
-    exec("bin\\ceres.exe", ["build", "map.w3x"], function(err, data) {
+    exec("./bin/ceres", ["build", "map.w3x"], function(err, data) {
       console.log(data);
 
       if (err != null) {
+        console.log(err);
         console.log("There was an error launching ceres.");
       }
 
@@ -36,11 +37,13 @@ switch (operation) {
   case "run":
     const filename = `${cwd}\\${process.argv[3]}`;
 
-    exec(config.gameExecutable, config.launchArgs.concat(["-loadfile", filename]), function(err, data) {
+    exec(config.gameExecutable, ["-loadfile", filename, ...config.launchArgs], function(err, data) {
       if (err != null) {
         console.log(`Error: ${err.code}`);
         console.log('There was an error launching the game. Make sure the path to your game executable has been set correctly in "config.js".');
         console.log(`Current Path: "${config.gameExecutable}"`);
+      } else {
+        console.log(`Warcraft III has been launched!`);
       }
     });
 
