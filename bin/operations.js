@@ -20,7 +20,7 @@ switch (operation) {
     fs.writeFileSync("ceres.toml", '[run]\nwc3_start_command=""');
 
     // build war3map.lua with ceres
-    exec("./bin/ceres", ["build", "map.w3x"], function(err, data) {
+    exec("./bin/ceres", ["build", config.mapFolder], function(err, data) {
       console.log(data);
 
       if (err != null) {
@@ -35,7 +35,7 @@ switch (operation) {
     break;
 
   case "run":
-    const filename = `${cwd}\\${process.argv[3]}`;
+    const filename = `${cwd}\\target\\${config.mapFolder}`;
 
     exec(config.gameExecutable, ["-loadfile", filename, ...config.launchArgs], function(err, data) {
       if (err != null) {
