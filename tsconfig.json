@@ -1,30 +1,67 @@
 {
-    "compilerOptions": {
-      "target": "es6",
-      "lib": ["es6"],
-      "strict": true,
-      "noImplicitAny" : true,
-      "noImplicitThis" : true,
-      "alwaysStrict" : true,
-      "strictNullChecks" : true,
-      "outDir": "src",
-      "types": [
-        "lua-types/core/coroutine",
-        "lua-types/core/global",
-        "lua-types/core/math",
-        "lua-types/core/metatable",
-        "lua-types/core/modules",
-        "lua-types/core/string",
-        "lua-types/core/table",
-        "lua-types/core/debug",
-        "lua-types/core/os",
-        "lua-types/special/5.3"
+  "compilerOptions": {
+    "outDir": "src",
+    "baseUrl": "src-ts",
+    "rootDir": "src-ts",
+    "paths": {
+      "*": [
+        "./node_modules/*/src/index",
+        "./node_modules/*/lib/index",
+        "./node_modules/*/index",
+        "./node_modules/*/dist/index"
       ]
     },
-    "include": ["src-ts"],
-    "tstl": {
-      "luaTarget": "5.3",
-      "noHeader": true,
-      "luaLibImport": "require"
-    }
+    "plugins": [
+      {
+        "transform": "ts-transformer-imports"
+      }
+    ],
+    "allowJs": false,
+    "target": "es6",
+    "lib": [
+      "es6"
+    ],
+    "moduleResolution": "classic",
+    "strict": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "strictNullChecks": true,
+    "types": [
+      "lua-types/core/coroutine",
+      "lua-types/core/global",
+      "lua-types/core/math",
+      "lua-types/core/metatable",
+      "lua-types/core/modules",
+      "lua-types/core/string",
+      "lua-types/core/table",
+      "lua-types/core/debug",
+      "lua-types/core/os",
+      "lua-types/special/5.3",
+      "war3-types/core/compat",
+      "war3-types/core/common",
+      "war3-types/core/blizzard",
+      "war3-types/core/commonai",
+      "war3-types/core/polyfill",
+      "war3-types/special/ceres"
+    ]
+  },
+  "include": [
+    "src-ts",
+    "src-ts/node_modules"
+  ],
+  "exclude": [
+    "src-ts/node_modules/*/test",
+    "src-ts/node_modules/*/tests",
+    "src-ts/node_modules/war3-types",
+    "src-ts/node_modules/lua-types",
+    "src-ts/node_modules/convertjasstots",
+    "src-ts/node_modules/@types",
+  ],
+  "tstl": {
+    "luaTarget": "5.3",
+    "noHeader": true,
+    "luaLibImport": "require",
+    "noImplicitSelf": true
   }
+}
