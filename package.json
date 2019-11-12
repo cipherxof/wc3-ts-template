@@ -6,26 +6,30 @@
   "license": "MIT",
   "main": "src-ts/main.ts",
   "scripts": {
-    "test": "tstl -p tsconfig.json --rootDir \"src-ts\" && node bin/operations build && node bin/operations run",
-    "build": "tstl -p tsconfig.json --rootDir \"src-ts\" && node bin/operations build",
+    "test": "tstl -p tsconfig.json && npm run build && node bin/operations run",
+    "build": "tstl -p tsconfig.json && node bin/operations build",
     "dev": "npm-watch",
+    "install": "cd src-ts && npm install",
+    "remove": "cd src-ts && npm remove",
     "build:defs": "node bin/operations gen-defs"
   },
   "watch": {
     "build:defs": {
       "patterns": [
-        "./maps/map.w3x"
+        "./maps/*"
       ],
       "extensions": "lua",
       "legacyWatch": true
     }
   },
-  "dependencies": {
-    "npm-watch": "^0.6.0",
-    "typescript-to-lua": "^0.27.1",
-    "war3tstlhelper": "^1.0.0"
-  },
   "devDependencies": {
-    "lua-types": "^2.6.1"
+    "@types/node": "^12.0.2",
+    "lua-types": "^2.6.1",
+    "war3-types": "^1.0.0",
+    "npm-watch": "^0.6.0",
+    "typescript-to-lua": "^0.28.1",
+    "typescript-transform-paths": "^1.1.13",
+    "war3tstlhelper": "^1.0.0",
+    "ts-transformer-imports": "^0.4.3"
   }
 }

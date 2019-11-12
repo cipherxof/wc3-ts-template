@@ -1,11 +1,27 @@
-/** @noSelfInFile **/
+import { hello } from 'nwtgck-ts-hello'
+import { Destructable, MapPlayer, Unit } from 'w3ts';
+import { isDestructableTree, setIsDestructableTreeConfig } from 'is-destructable-tree';
+import { LibraryLoader } from 'war3-library-loader';
 
-import { File } from "./lib/file-io";
+function tsMain() {
+  print(hello());
 
-function tsMain(){
-    print("Hello World!");
+  const d = new Destructable(FourCC("LTlt"), 0, 0, 0, 0, 1, 0);
 
-    File.write("ts.pld", "Welcome to TypeScript!");
+  print("isTree: " + isDestructableTree(d));
+
+  const unit = new Unit(MapPlayer.fromIndex(0), FourCC('hfoo'), 0, 0, 0);
+  unit.name = "TypeScript!";
 }
 
+// Configure libraries
+setIsDestructableTreeConfig({ HARVESTER_UNIT_ID: FourCC("opeo") });
+
+// Handle initialization 
+function libLoaderLog(libName: string, success: boolean, message: string) {
+  print(`Initializing "${libName}": ${success ? 'Success' : 'Failure'}, "${message}"`);
+}
+
+LibraryLoader.logFunction = libLoaderLog;
+ceres.addHook("main::after", () => LibraryLoader.runInitializers());
 ceres.addHook("main::after", () => tsMain());
