@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "outDir": "src",
-    "baseUrl": "src-ts",
-    "rootDir": "src-ts",
+    "outDir": "dist",
+    "baseUrl": "src",
+    "rootDir": "src",
     "paths": {
       "*": [
         "./node_modules/*/src/index",
@@ -47,21 +47,23 @@
     ]
   },
   "include": [
-    "src-ts",
-    "src-ts/node_modules"
+    "src",
+    "src/node_modules"
   ],
   "exclude": [
-    "src-ts/node_modules/*/test",
-    "src-ts/node_modules/*/tests",
-    "src-ts/node_modules/war3-types",
-    "src-ts/node_modules/lua-types",
-    "src-ts/node_modules/convertjasstots",
-    "src-ts/node_modules/@types",
+    "src/node_modules/*/test",
+    "src/node_modules/*/tests",
+    "src/node_modules/war3-types",
+    "src/node_modules/lua-types",
+    "src/node_modules/convertjasstots",
+    "src/node_modules/@types",
   ],
   "tstl": {
     "luaTarget": "5.3",
     "noHeader": true,
     "luaLibImport": "require",
-    "noImplicitSelf": true
+    "noImplicitSelf": true,
+    "luaBundle": "dist/tstl_output.lua",
+    "luaBundleEntry": "./src/main.ts"
   }
 }

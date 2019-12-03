@@ -4,13 +4,14 @@
   "description": "",
   "author": "TriggerHappy",
   "license": "MIT",
-  "main": "src-ts/main.ts",
+  "main": "src/main.ts",
   "scripts": {
     "test": "tstl -p tsconfig.json && npm run build && node bin/operations run",
     "build": "tstl -p tsconfig.json && node bin/operations build",
     "dev": "npm-watch",
-    "install": "cd src-ts && npm install",
-    "remove": "cd src-ts && npm remove",
+    "install": "cd src && npm install",
+    "uninstall": "cd src && npm uninstall",
+    "remove": "cd src && npm remove",
     "build:defs": "node bin/operations gen-defs"
   },
   "watch": {
@@ -27,9 +28,9 @@
     "lua-types": "^2.6.1",
     "war3-types": "^1.0.0",
     "npm-watch": "^0.6.0",
-    "typescript-to-lua": "^0.28.1",
-    "typescript-transform-paths": "^1.1.13",
+    "typescript-to-lua": "^0.29.1",
     "war3tstlhelper": "^1.0.0",
-    "ts-transformer-imports": "^0.4.3"
+    "ts-transformer-imports": "^0.4.3",
+    "fs-extra": "^8.1.0"
   }
 }

@@ -10,9 +10,7 @@
   "keywords": [],
   "devDependencies": {},
   "dependencies": {
-    "nwtgck-ts-hello": "0.0.5",
-    "w3ts": "^1.0.0",
-    "is-destructable-tree": "^1.0.0"
+    "w3ts": "^1.0.3"
   },
   "description": ""
 }
