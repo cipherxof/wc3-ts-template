@@ -1,8 +1,18 @@
 {
   "compilerOptions": {
-    "outDir": "dist",
-    "baseUrl": "src",
-    "rootDir": "src",
+    "outDir": ".",
+    "baseUrl": ".",
+    "allowJs": false,
+    "target": "es6",
+    "lib": [
+      "es6"
+    ],
+    "moduleResolution": "classic",
+    "strict": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "strictNullChecks": true,
     "paths": {
       "*": [
         "./node_modules/*/src/index",
@@ -16,17 +26,6 @@
         "transform": "ts-transformer-imports"
       }
     ],
-    "allowJs": false,
-    "target": "es6",
-    "lib": [
-      "es6"
-    ],
-    "moduleResolution": "classic",
-    "strict": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "alwaysStrict": true,
-    "strictNullChecks": true,
     "types": [
       "lua-types/core/coroutine",
       "lua-types/core/global",
@@ -35,20 +34,17 @@
       "lua-types/core/modules",
       "lua-types/core/string",
       "lua-types/core/table",
-      "lua-types/core/debug",
       "lua-types/core/os",
       "lua-types/special/5.3",
       "war3-types/core/compat",
       "war3-types/core/common",
       "war3-types/core/blizzard",
       "war3-types/core/commonai",
-      "war3-types/core/polyfill",
-      "war3-types/special/ceres"
+      "war3-types/core/polyfill"
     ]
   },
   "include": [
-    "src",
-    "src/node_modules"
+    "src"
   ],
   "exclude": [
     "src/node_modules/*/test",
