@@ -22,7 +22,7 @@
     "fs-extra": "^8.1.0"
   },
   "dependencies": {
-    "w3ts": "^1.0.3"
+    "w3ts": "^1.0.4"
   },
   "watch": {
     "build:defs": {
