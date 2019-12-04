@@ -16,14 +16,13 @@ const operation = process.argv[2];
 
 switch (operation) {
   case "build":
-
     const tsLua = "./dist/tstl_output.lua";
 
     if (!fs.existsSync(tsLua)) {
       return console.error(`Could not find "${tsLua}"`);
     }
 
-    console.log(`Building "${cwd}/dist/${config.mapFolder}"...`);
+    console.log(`Building "${config.mapFolder}"...`);
     fs.copy(`./maps/${config.mapFolder}`, `./dist/${config.mapFolder}`, function (err) {
       if (err) {
         return console.error(err);
@@ -53,7 +52,14 @@ switch (operation) {
 
     console.log(`Running ${filename}...`);
 
-    execFile(config.gameExecutable, ["-loadfile", filename, ...config.launchArgs]);
+    execFile(config.gameExecutable, ["-loadfile", filename, ...config.launchArgs], (err, stdout, stderr) => {
+      if (err) {
+        if (err.code === 'ENOENT') {
+          return console.error(`No such file or directory "${config.gameExecutable}". Make sure gameExecutable is configured properly in config.json.`);
+        }
+        return console.error(err);
+      }
+    });
 
     break;
   case "gen-defs":
