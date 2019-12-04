@@ -23,25 +23,27 @@ switch (operation) {
       return console.error(`Could not find "${tsLua}"`);
     }
 
-    console.log(`Building "${cwd}\\maps\\${config.mapFolder}"...`);
+    console.log(`Building "${cwd}/dist/${config.mapFolder}"...`);
     fs.copy(`./maps/${config.mapFolder}`, `./dist/${config.mapFolder}`, function (err) {
       if (err) {
-        console.error(err);
-      } else {
-        const mapLua = `./dist/${config.mapFolder}/war3map.lua`;
-
-        if (!fs.existsSync(mapLua)) {
-          return console.error(`Could not find "${mapLua}"`);
-        }
-
-        try {
-          const tsLuaContents = fs.readFileSync(tsLua);
-          fs.appendFileSync(mapLua, tsLuaContents);
-        } catch (err) {
-          return console.error(err);
-        }
-        console.log(`Completed!`);
+        return console.error(err);
       }
+
+      // Merge the TSTL output with war3map.lua
+      const mapLua = `./dist/${config.mapFolder}/war3map.lua`;
+
+      if (!fs.existsSync(mapLua)) {
+        return console.error(`Could not find "${mapLua}"`);
+      }
+
+      try {
+        const tsLuaContents = fs.readFileSync(tsLua);
+        fs.appendFileSync(mapLua, tsLuaContents);
+      } catch (err) {
+        return console.error(err);
+      }
+
+      console.log(`Completed!`);
     });
 
     break;
@@ -49,7 +51,7 @@ switch (operation) {
   case "run":
     const filename = `${cwd}/dist/${config.mapFolder}`;
 
-    console.log(filename);
+    console.log(`Running ${filename}...`);
 
     execFile(config.gameExecutable, ["-loadfile", filename, ...config.launchArgs]);
 
@@ -57,8 +59,6 @@ switch (operation) {
   case "gen-defs":
     // Create definitions file for generated globals
     const luaFile = `./maps/${config.mapFolder}/war3map.lua`;
-
-    console.log(luaFile);
 
     try {
       const contents = fs.readFileSync(luaFile, "utf8");

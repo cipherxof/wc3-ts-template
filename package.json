@@ -6,22 +6,10 @@
   "license": "MIT",
   "main": "src/main.ts",
   "scripts": {
-    "test": "tstl -p tsconfig.json && npm run build && node bin/operations run",
-    "build": "tstl -p tsconfig.json && node bin/operations build",
+    "test": "npm run build && node bin/operations run",
+    "build": "echo Transpiling TypeScript to Lua... && tstl -p tsconfig.json && node bin/operations build",
     "dev": "npm-watch",
-    "install": "cd src && npm install",
-    "uninstall": "cd src && npm uninstall",
-    "remove": "cd src && npm remove",
     "build:defs": "node bin/operations gen-defs"
-  },
-  "watch": {
-    "build:defs": {
-      "patterns": [
-        "./maps/*"
-      ],
-      "extensions": "lua",
-      "legacyWatch": true
-    }
   },
   "devDependencies": {
     "@types/node": "^12.0.2",
@@ -32,5 +20,17 @@
     "war3tstlhelper": "^1.0.0",
     "ts-transformer-imports": "^0.4.3",
     "fs-extra": "^8.1.0"
+  },
+  "dependencies": {
+    "w3ts": "^1.0.3"
+  },
+  "watch": {
+    "build:defs": {
+      "patterns": [
+        "./maps/*"
+      ],
+      "extensions": "lua",
+      "legacyWatch": true
+    }
   }
 }
