@@ -46,14 +46,7 @@
   "include": [
     "src"
   ],
-  "exclude": [
-    "src/node_modules/*/test",
-    "src/node_modules/*/tests",
-    "src/node_modules/war3-types",
-    "src/node_modules/lua-types",
-    "src/node_modules/convertjasstots",
-    "src/node_modules/@types",
-  ],
+  "exclude": [],
   "tstl": {
     "luaTarget": "5.3",
     "noHeader": true,

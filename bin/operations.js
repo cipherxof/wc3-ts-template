@@ -2,6 +2,7 @@ const fs = require("fs-extra");
 const War3TSTLHelper = require("war3tstlhelper");
 const execFile = require("child_process").execFile;
 const cwd = process.cwd();
+const luamin = require('luamin');
 
 // Parse configuration
 let config = {};
@@ -36,7 +37,11 @@ switch (operation) {
       }
 
       try {
-        const tsLuaContents = fs.readFileSync(tsLua);
+        let tsLuaContents = fs.readFileSync(tsLua);
+        if (config.minifyScript) {
+          console.log(`Minifying script...`);
+          tsLuaContents = luamin.minify(tsLuaContents.toString());
+        }
         fs.appendFileSync(mapLua, tsLuaContents);
       } catch (err) {
         return console.error(err);
