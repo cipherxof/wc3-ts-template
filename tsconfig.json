@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "outDir": ".",
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "allowJs": false,
     "target": "es6",
     "lib": [
@@ -15,10 +15,10 @@
     "strictNullChecks": true,
     "paths": {
       "*": [
-        "./node_modules/*/src/index",
-        "./node_modules/*/lib/index",
-        "./node_modules/*/index",
-        "./node_modules/*/dist/index"
+        "../node_modules/*/src/index",
+        "../node_modules/*/lib/index",
+        "../node_modules/*/index",
+        "../node_modules/*/dist/index"
       ]
     },
     "plugins": [
