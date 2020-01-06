@@ -18,12 +18,12 @@
     "luamin": "^1.0.4",
     "npm-watch": "^0.6.0",
     "ts-transformer-imports": "^0.4.3",
-    "typescript-to-lua": "^0.29.1",
+    "typescript-to-lua": "^0.30.1",
     "war3-types": "^1.0.0",
-    "war3tstlhelper": "^1.0.0"
+    "war3tstlhelper": "^1.0.1"
   },
   "dependencies": {
-    "w3ts": "^1.0.4"
+    "w3ts": "^1.0.5"
   },
   "watch": {
     "build:defs": {

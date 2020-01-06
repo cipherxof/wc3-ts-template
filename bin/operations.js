@@ -37,12 +37,12 @@ switch (operation) {
       }
 
       try {
-        let tsLuaContents = fs.readFileSync(tsLua);
+        let contents = fs.readFileSync(mapLua) + fs.readFileSync(tsLua);
         if (config.minifyScript) {
           console.log(`Minifying script...`);
-          tsLuaContents = luamin.minify(tsLuaContents.toString());
+          contents = luamin.minify(contents.toString());
         }
-        fs.appendFileSync(mapLua, tsLuaContents);
+        fs.writeFileSync(mapLua, contents);
       } catch (err) {
         return console.error(err);
       }
@@ -55,14 +55,13 @@ switch (operation) {
   case "run":
     const filename = `${cwd}/dist/${config.mapFolder}`;
 
-    console.log(`Running ${filename}...`);
+    console.log(`Launching map "${filename.replace(/\\/g, "/")}"...`);
 
     execFile(config.gameExecutable, ["-loadfile", filename, ...config.launchArgs], (err, stdout, stderr) => {
       if (err) {
         if (err.code === 'ENOENT') {
           return console.error(`No such file or directory "${config.gameExecutable}". Make sure gameExecutable is configured properly in config.json.`);
         }
-        return console.error(err);
       }
     });
 
