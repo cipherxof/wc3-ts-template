@@ -23,7 +23,7 @@
     "war3tstlhelper": "^1.0.1"
   },
   "dependencies": {
-    "w3ts": "^1.0.5"
+    "w3ts": "^1.0.6"
   },
   "watch": {
     "build:defs": {
