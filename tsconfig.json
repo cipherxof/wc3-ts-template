@@ -2,28 +2,24 @@
   "compilerOptions": {
     "outDir": ".",
     "baseUrl": "./src",
-    "allowJs": false,
+    "allowJs": true,
     "target": "es6",
     "lib": [
       "es6"
     ],
     "moduleResolution": "classic",
-    "strict": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "alwaysStrict": true,
-    "strictNullChecks": true,
     "paths": {
       "*": [
         "../node_modules/*/src/index",
         "../node_modules/*/lib/index",
         "../node_modules/*/index",
-        "../node_modules/*/dist/index"
+        "../node_modules/*/dist/index",
+        "../node_modules/*"
       ]
     },
     "plugins": [
       {
-        "transform": "ts-transformer-imports"
+        "transform": "war3-transformer"
       }
     ],
     "types": [
@@ -40,7 +36,9 @@
       "war3-types/core/common",
       "war3-types/core/blizzard",
       "war3-types/core/commonai",
-      "war3-types/core/polyfill"
+      "war3-types/core/polyfill",
+      "war3-types/special/w3ts",
+      "mdx-m3-viewer/src/types"
     ]
   },
   "include": [
