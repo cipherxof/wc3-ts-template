@@ -6,13 +6,13 @@
   "license": "MIT",
   "main": "src/main.ts",
   "scripts": {
-    "test": "ts-node scripts/test",
-    "build": "ts-node --skip-ignore scripts/build",
+    "test": "ts-node scripts/test.ts",
+    "build": "ts-node --ignore \"node_modules/(?!mdx-m3-viewer).*\" scripts/build.ts",
     "dev": "npm-watch",
     "build:defs": "ts-node scripts/dev"
   },
   "dependencies": {
-    "w3ts": "^2.0.0"
+    "w3ts": "^2.1.0"
   },
   "devDependencies": {
     "@types/fs-extra": "^8.1.0",
