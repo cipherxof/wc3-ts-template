@@ -1,4 +1,3 @@
-import * as fs from "fs-extra";
 import { execFile } from "child_process";
 import { loadJsonFile, logger, compileMap } from "./utils";
 

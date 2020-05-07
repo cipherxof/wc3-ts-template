@@ -12,7 +12,7 @@
     "build:defs": "ts-node scripts/dev"
   },
   "dependencies": {
-    "w3ts": "^2.1.0"
+    "w3ts": "^2.1.2"
   },
   "devDependencies": {
     "@types/fs-extra": "^8.1.0",
@@ -21,7 +21,7 @@
     "fs-extra": "^8.1.0",
     "lua-types": "^2.6.1",
     "luamin": "^1.0.4",
-    "mdx-m3-viewer": "^5.0.0-beta.20",
+    "mdx-m3-viewer": "^5.0.0-beta.25",
     "npm-watch": "^0.6.0",
     "ts-node": "^8.8.1",
     "tsconfig-paths": "^3.9.0",

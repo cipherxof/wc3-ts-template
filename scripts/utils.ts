@@ -5,6 +5,14 @@ import { createLogger, format, transports } from "winston";
 const { combine, timestamp, printf } = format;
 const luamin = require('luamin');
 
+export interface IProjectConfig {
+  mapFolder: string;
+  minifyScript: string;
+  gameExecutable: string;
+  outputFolder: string;
+  launchArgs: string[];
+}
+
 /**
  * Load an object from a JSON file.
  * @param fname The JSON file
@@ -82,7 +90,7 @@ export function processScriptIncludes(contents: string) {
 /**
  * 
  */
-export function compileMap(config: any) {
+export function compileMap(config: IProjectConfig) {
   if (!config.mapFolder) {
     logger.error(`Could not find key "mapFolder" in config.json`);
     return false;
