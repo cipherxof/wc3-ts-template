@@ -7,7 +7,7 @@ const luamin = require('luamin');
 
 export interface IProjectConfig {
   mapFolder: string;
-  minifyScript: string;
+  minifyScript: boolean;
   gameExecutable: string;
   outputFolder: string;
   launchArgs: string[];
