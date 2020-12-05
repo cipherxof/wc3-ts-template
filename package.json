@@ -6,8 +6,8 @@
   "license": "MIT",
   "main": "src/main.ts",
   "scripts": {
-    "test": "ts-node scripts/test.ts",
-    "build": "ts-node scripts/build.ts",
+    "test": "ts-node --transpile-only scripts/test.ts",
+    "build": "ts-node --transpile-only scripts/build.ts",
     "dev": "npm-watch",
     "postinstall": "tsc --outDir null -p node_modules/mdx-m3-viewer/tsconfig.json",
     "build:defs": "ts-node scripts/dev"
