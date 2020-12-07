@@ -11,6 +11,8 @@ export interface IProjectConfig {
   gameExecutable: string;
   outputFolder: string;
   launchArgs: string[];
+  winePath?: string;
+  winePrefix?: string;
 }
 
 /**
@@ -28,7 +30,7 @@ export function loadJsonFile(fname: string) {
 
 /**
  * Convert a Buffer to ArrayBuffer
- * @param buf 
+ * @param buf
  */
 export function toArrayBuffer(b: Buffer): ArrayBuffer {
   var ab = new ArrayBuffer(b.length);
@@ -41,7 +43,7 @@ export function toArrayBuffer(b: Buffer): ArrayBuffer {
 
 /**
  * Convert a ArrayBuffer to Buffer
- * @param ab 
+ * @param ab
  */
 export function toBuffer(ab: ArrayBuffer) {
   var buf = Buffer.alloc(ab.byteLength);
@@ -88,7 +90,7 @@ export function processScriptIncludes(contents: string) {
 }
 
 /**
- * 
+ *
  */
 export function compileMap(config: IProjectConfig) {
   if (!config.mapFolder) {
