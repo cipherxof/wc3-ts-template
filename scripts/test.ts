@@ -14,6 +14,7 @@ function main() {
   const filename = `${cwd}/dist/${config.mapFolder}`;
 
   logger.info(`Launching map "${filename.replace(/\\/g, "/")}"...`);
+
   if(config.winePath) {
     const wineFilename = `"Z:${filename}"`
     const prefix = config.winePrefix ? `WINEPREFIX=${config.winePrefix}` : ''
@@ -25,8 +26,6 @@ function main() {
       }
     });
   }
-
-
 }
 
 main();
