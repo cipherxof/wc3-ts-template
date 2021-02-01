@@ -1,7 +1,7 @@
 # wc3-ts-template
  An easy to use template to get you started coding in TypeScript for Warcraft III maps.
 
-Setup guide and information on the [wiki](https://github.com/triggerhappy187/wc3-ts-template/wiki).
+Setup Guide: [Getting Started](https://cipherxof.github.io/w3ts/docs/getting-started).
 
 ## Features
 * TypeScript API and wrappers for most handles (see [w3ts](https://github.com/cipherxof/w3ts))
