@@ -22,6 +22,7 @@
       }
     ],
     "types": [
+      "lua-types/core/index",
       "lua-types/core/coroutine",
       "lua-types/core/global",
       "lua-types/core/math",
