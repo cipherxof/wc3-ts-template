@@ -5,6 +5,14 @@ import { compileMap, getFilesInDirectory, loadJsonFile, logger, toArrayBuffer, I
 
 function main() {
   const config: IProjectConfig = loadJsonFile("config.json");
+  const minify = process.argv[2] === '-minify' || config.minifyScript
+
+  if(minify !== config.minifyScript){
+    logger.warn(`minifyScript has been overridden by command line argument "-minify"`)
+    config.minifyScript = minify
+  }
+
+
   const result = compileMap(config);
 
   if (!result) {
