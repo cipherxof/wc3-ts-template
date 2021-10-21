@@ -1,4 +1,5 @@
 import { execSync } from "child_process";
+import { writeFileSync } from "fs";
 import * as fs from "fs-extra";
 import * as path from "path";
 import { createLogger, format, transports } from "winston";
@@ -89,6 +90,17 @@ export function processScriptIncludes(contents: string) {
   return contents;
 }
 
+function updateTSConfig(mapFolder: string) {
+  const tsconfig = loadJsonFile('tsconfig.json');
+  const plugin = tsconfig.compilerOptions.plugins[0];
+
+  plugin.mapDir = path.resolve('maps', mapFolder).replace(/\\/g, '/');
+  plugin.entryFile = path.resolve(tsconfig.tstl.luaBundleEntry).replace(/\\/g, '/');
+  plugin.outputDir = path.resolve('dist', mapFolder).replace(/\\/g, '/');
+
+  writeFileSync('tsconfig.json', JSON.stringify(tsconfig, undefined, 2));
+}
+
 /**
  *
  */
@@ -104,6 +116,12 @@ export function compileMap(config: IProjectConfig) {
     fs.unlinkSync(tsLua);
   }
 
+  logger.info(`Building "${config.mapFolder}"...`);
+  fs.copySync(`./maps/${config.mapFolder}`, `./dist/${config.mapFolder}`);
+
+  logger.info("Modifying tsconfig.json to work with war3-transformer...");
+  updateTSConfig(config.mapFolder);
+
   logger.info("Transpiling TypeScript to Lua...");
   execSync('tstl -p tsconfig.json', { stdio: 'inherit' });
 
@@ -111,9 +129,6 @@ export function compileMap(config: IProjectConfig) {
     logger.error(`Could not find "${tsLua}"`);
     return false;
   }
-
-  logger.info(`Building "${config.mapFolder}"...`);
-  fs.copySync(`./maps/${config.mapFolder}`, `./dist/${config.mapFolder}`);
 
   // Merge the TSTL output with war3map.lua
   const mapLua = `./dist/${config.mapFolder}/war3map.lua`;
