@@ -14,11 +14,17 @@
         "../node_modules/*/index",
         "../node_modules/*/dist/index",
         "../node_modules/*"
+      ],
+      "@object-api/*": [
+        "../node_modules/mdx-m3-viewer/dist/cjs/utils/w3x/objectdata/*"
       ]
     },
     "plugins": [
       {
-        "transform": "war3-transformer"
+        "transform": "war3-transformer",
+        "mapDir": "C:/Users/Me/Documents/GitHub/wc3-ts-template/maps/map.w3x",
+        "entryFile": "C:/Users/Me/Documents/GitHub/wc3-ts-template/src/main.ts",
+        "outputDir": "C:/Users/Me/Documents/GitHub/wc3-ts-template/dist/map.w3x"
       }
     ],
     "types": [
