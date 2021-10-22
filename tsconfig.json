@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
+    "strict": true,
+    "allowJs": false,
+    "outDir": ".",
     "baseUrl": "./src",
-    "allowJs": true,
-    "target": "es6",
-    "lib": [
-      "es6"
-    ],
+    "forceConsistentCasingInFileNames": true,
+    "target": "ESNext",
+    "lib": ["ESNext"],
     "moduleResolution": "classic",
     "paths": {
       "*": [
@@ -21,14 +22,11 @@
     },
     "plugins": [
       {
-        "transform": "war3-transformer",
-        "mapDir": "C:/Users/Me/Documents/GitHub/wc3-ts-template/maps/map.w3x",
-        "entryFile": "C:/Users/Me/Documents/GitHub/wc3-ts-template/src/main.ts",
-        "outputDir": "C:/Users/Me/Documents/GitHub/wc3-ts-template/dist/map.w3x"
+        "transform": "war3-transformer"
       }
     ],
     "types": [
-      "lua-types/core/index",
+      "typescript-to-lua/language-extensions",
       "lua-types/core/coroutine",
       "lua-types/core/global",
       "lua-types/core/math",
@@ -38,17 +36,11 @@
       "lua-types/core/table",
       "lua-types/core/os",
       "lua-types/special/5.3",
-      "war3-types/core/compat",
-      "war3-types/core/common",
-      "war3-types/core/blizzard",
-      "war3-types/core/commonai",
-      "war3-types/core/polyfill",
-      "war3-types/special/w3ts"
+      "war3-types-strict/1.32.10",
+      "war3-transformer/types"
     ]
   },
-  "include": [
-    "src"
-  ],
+  "include": ["src"],
   "exclude": [],
   "tstl": {
     "luaTarget": "5.3",
@@ -56,6 +48,7 @@
     "luaLibImport": "require",
     "noImplicitSelf": true,
     "luaBundle": "dist/tstl_output.lua",
-    "luaBundleEntry": "./src/main.ts"
+    "luaBundleEntry": "./src/main.ts",
+    "sourceMapTraceback": false
   }
 }
