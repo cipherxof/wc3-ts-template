@@ -1,15 +1,14 @@
 import { Item, MapPlayer, Timer, Unit } from "w3ts";
 import { Players } from "w3ts/globals";
 import { addScriptHook, W3TS_HOOK } from "w3ts/hooks";
-import { ObjectData } from "@object-api/objectdata";
-import { FetchType, OEUnit } from "@object-api/objects/unit";
+import * as OETypes from "war3-objectdata";
 
 const BUILD_DATE = compiletime(() => new Date().toUTCString());
 const TS_VERSION = compiletime(() => require("typescript").version);
 const TSTL_VERSION = compiletime(() => require("typescript-to-lua").version);
-const PEASANT = compiletime(({objectData}: {objectData: ObjectData}) => {
-  return objectData.units.get("hpea")?.fetch();
-}) as FetchType;
+const PEASANT = compiletime((ctx: CompiletimeContext) => {
+  return ctx.objectData.units.get("hpea");
+}) as OETypes.Unit | undefined;
 
 function tsMain() {
   print(`Build: ${BUILD_DATE}`);
@@ -17,8 +16,11 @@ function tsMain() {
   print(`Transpiler: v${TSTL_VERSION}`);
   print(" ");
   print("Welcome to TypeScript!");
-  print(" ");
-  print(`Peasant costs ${PEASANT.goldCost} gold!`);
+
+  if (PEASANT) {
+    print(" ");
+    print(`Peasant's model is "' ${PEASANT.modelFile}"`);
+  }
 
   const unit = new Unit(Players[0], FourCC("hfoo"), 0, 0, 270);
   unit.name = "TypeScript";

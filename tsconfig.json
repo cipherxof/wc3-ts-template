@@ -6,7 +6,9 @@
     "baseUrl": "./src",
     "forceConsistentCasingInFileNames": true,
     "target": "ESNext",
-    "lib": ["ESNext"],
+    "lib": [
+      "ESNext"
+    ],
     "moduleResolution": "classic",
     "paths": {
       "*": [
@@ -14,10 +16,8 @@
         "../node_modules/*/lib/index",
         "../node_modules/*/index",
         "../node_modules/*/dist/index",
+        "../node_modules/*/dist/cjs/index",
         "../node_modules/*"
-      ],
-      "@object-api/*": [
-        "../node_modules/mdx-m3-viewer/dist/cjs/utils/w3x/objectdata/*"
       ]
     },
     "plugins": [
@@ -37,10 +37,13 @@
       "lua-types/core/os",
       "lua-types/special/5.3",
       "war3-types-strict/1.32.10",
-      "war3-transformer/types"
+      "war3-transformer/types",
+      "war3-objectdata/dist/cjs/objectdata"
     ]
   },
-  "include": ["src"],
+  "include": [
+    "src"
+  ],
   "exclude": [],
   "tstl": {
     "luaTarget": "5.3",
