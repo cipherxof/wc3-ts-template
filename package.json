@@ -12,7 +12,7 @@
     "build:defs": "ts-node scripts/dev"
   },
   "dependencies": {
-    "w3ts": "github:cipherxof/w3ts#updates"
+    "w3ts": "^3.0.2"
   },
   "devDependencies": {
     "@types/fs-extra": "8.1.1",
@@ -22,14 +22,15 @@
     "fs-extra": "8.1.0",
     "lua-types": "^2.13.1",
     "luamin": "^1.0.4",
-    "mdx-m3-viewer": "5.12.0",
+    "mdx-m3-viewer-th": "^5.13.0",
     "npm-watch": "0.6.0",
     "ts-node": "8.10.2",
     "tsconfig-paths": "3.9.0",
     "tsutils": "3.17.1",
     "typescript": "^5.0.4",
     "typescript-to-lua": "^1.15.1",
-    "war3-transformer": "github:cipherxof/war3-transformer",
+    "war3-objectdata-th": "^0.2.6",
+    "war3-transformer": "^3.0.6",
     "war3tstlhelper": "1.0.1",
     "winston": "^3.8.2"
   },

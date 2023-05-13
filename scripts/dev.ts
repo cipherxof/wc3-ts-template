@@ -12,7 +12,7 @@ try {
     const parser = new War3TSTLHelper(contents);
     const result = parser.genTSDefinitions();
     fs.writeFileSync("src/war3map.d.ts", result);
-} catch (err) {
+} catch (err: any) {
     logger.error(err.toString());
     logger.error(`There was an error generating the definition file for '${luaFile}'`);
 }

@@ -3,13 +3,18 @@
     "strict": true,
     "allowJs": false,
     "outDir": ".",
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "forceConsistentCasingInFileNames": true,
     "target": "ESNext",
     "lib": [
       "ESNext"
     ],
     "moduleResolution": "node",
+    "paths": {
+      "@objectdata/*": [
+        "./node_modules/war3-objectdata-th/dist/cjs/generated/*"
+      ]
+    },
     "plugins": [
       {
         "transform": "war3-transformer",
@@ -31,7 +36,7 @@
       "lua-types/special/5.3",
       "war3-types-strict/1.33.0",
       "war3-transformer/types",
-      "war3-objectdata/dist/cjs/objectdata"
+      "war3-objectdata-th/dist/cjs/objectdata"
     ]
   },
   "include": [
