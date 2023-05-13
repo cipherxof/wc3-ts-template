@@ -5,7 +5,7 @@ Setup Guide: [Getting Started](https://cipherxof.github.io/w3ts/docs/getting-sta
 
 ## Features
 * TypeScript API and wrappers for most handles ([w3ts](https://github.com/cipherxof/w3ts))
-* Support for object data manipulation (read/write) ([war3-objectdata](https://github.com/cipherxof/war3-objectdata)
+* Support for object data manipulation (read/write) ([war3-objectdata](https://github.com/cipherxof/war3-objectdata))
 * Evalute code at compile-time and embed the results into your map. ([war3-transformer](https://github.com/cipherxof/war3-transformer))
 * Build w3x archives from your project's map folder.
 * Work on your map in the World Editor while also coding in TypeScript.
