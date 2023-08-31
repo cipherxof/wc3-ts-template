@@ -1,6 +1,5 @@
 import * as fs from "fs-extra"
 import { ModificationFiles, ObjectData, Units } from "war3-objectdata-th";
-import { loadJsonFile } from "./utils";
 import War3MapW3d from "mdx-m3-viewer-th/dist/cjs/parsers/w3x/w3d/file";
 import War3MapW3u from "mdx-m3-viewer-th/dist/cjs/parsers/w3x/w3u/file";
 
@@ -124,7 +123,7 @@ export function saveObjectData(objectData: ObjectData, outputDir: string) {
   }
 }
 
-export function compileTimeMain() {
+export function compileTimeMain(mapDir: string, outputDir: string) {
   const BUILD_DATE = new Date().toUTCString();
   const TS_VERSION = require("typescript").version
   const TSTL_VERSION = require("typescript-to-lua").version;
@@ -132,9 +131,7 @@ export function compileTimeMain() {
   saveCompileTime(TS_VERSION, "TS_VERSION")
   saveCompileTime({ TSTL_VERSION })
 
-  const tsconfig = loadJsonFile('tsconfig.json');
-  const options = tsconfig.compilerOptions.plugins[0];
-  const objectData = loadObjectData(options.mapDir);
+  const objectData = loadObjectData(mapDir);
 
   const unit = objectData.units.get(Units.Footman);
 
@@ -144,7 +141,7 @@ export function compileTimeMain() {
 
   unit.modelFile = "units\\human\\TheCaptain\\TheCaptain.mdl";
 
-  saveObjectData(objectData, options.outputDir);
+  saveObjectData(objectData, outputDir);
   fs.writeFileSync("src/compiletimeConstants.ts", constants.reduce( (p, c) =>`${p}${c}\n`, ""));
 }
 

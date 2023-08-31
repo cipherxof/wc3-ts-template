@@ -76,17 +76,6 @@ export function getFilesInDirectory(dir: string) {
   return files;
 };
 
-function updateTSConfig(mapFolder: string) {
-  const tsconfig = loadJsonFile('tsconfig.json');
-  const plugin = tsconfig.compilerOptions.plugins[0];
-
-  plugin.mapDir = path.resolve('maps', mapFolder).replace(/\\/g, '/');
-  plugin.entryFile = path.resolve(tsconfig.tstl.luaBundleEntry).replace(/\\/g, '/');
-  plugin.outputDir = path.resolve('dist', mapFolder).replace(/\\/g, '/');
-
-  writeFileSync('tsconfig.json', JSON.stringify(tsconfig, undefined, 2));
-}
-
 /**
  *
  */
@@ -105,11 +94,10 @@ export function compileMap(config: IProjectConfig) {
   logger.info(`Building "${config.mapFolder}"...`);
   fs.copySync(`./maps/${config.mapFolder}`, `./dist/${config.mapFolder}`);
   
-  logger.info("Modifying tsconfig.json to work with war3-transformer...");
-  updateTSConfig(config.mapFolder);
-
   logger.info("Generating compiletime constants...")
-  compileTimeMain()
+  const mapDir = path.resolve('maps', config.mapFolder).replace(/\\/g, '/');
+  const outputDir = path.resolve('dist', config.mapFolder).replace(/\\/g, '/');
+  compileTimeMain(mapDir, outputDir)
 
   logger.info("Transpiling TypeScript to Lua...");
   execSync('tstl -p tsconfig.json', { stdio: 'inherit' });

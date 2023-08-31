@@ -18,14 +18,6 @@
         "./node_modules/war3-objectdata-th/dist/cjs/generated/constants/*"
       ]
     },
-    "plugins": [
-      {
-        "transform": "war3-transformer",
-        "mapDir": "C:/Users/Me/Documents/GitHub/wc3-ts-template/maps/map.w3x",
-        "entryFile": "C:/Users/Me/Documents/GitHub/wc3-ts-template/src/main.ts",
-        "outputDir": "C:/Users/Me/Documents/GitHub/wc3-ts-template/dist/map.w3x"
-      }
-    ],
     "types": [
       "@typescript-to-lua/language-extensions",
       "lua-types/core/coroutine",
@@ -38,7 +30,6 @@
       "lua-types/core/os",
       "lua-types/special/5.3",
       "war3-types-strict/1.33.0",
-      "war3-transformer/types",
       "war3-objectdata-th/dist/cjs/objectdata"
     ]
   },
