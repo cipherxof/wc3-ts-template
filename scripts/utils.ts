@@ -3,6 +3,7 @@ import { writeFileSync } from "fs";
 import * as fs from "fs-extra";
 import * as path from "path";
 import { createLogger, format, transports } from "winston";
+import { compileTimeMain } from "./compiletime";
 const { combine, timestamp, printf } = format;
 const luamin = require('luamin');
 
@@ -103,9 +104,12 @@ export function compileMap(config: IProjectConfig) {
 
   logger.info(`Building "${config.mapFolder}"...`);
   fs.copySync(`./maps/${config.mapFolder}`, `./dist/${config.mapFolder}`);
-
+  
   logger.info("Modifying tsconfig.json to work with war3-transformer...");
   updateTSConfig(config.mapFolder);
+
+  logger.info("Generating compiletime constants...")
+  compileTimeMain()
 
   logger.info("Transpiling TypeScript to Lua...");
   execSync('tstl -p tsconfig.json', { stdio: 'inherit' });
