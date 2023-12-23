@@ -28,7 +28,7 @@
     "tsconfig-paths": "3.9.0",
     "tsutils": "3.17.1",
     "typescript": "5.0.4",
-    "typescript-to-lua": "^1.15.1",
+    "typescript-to-lua": "1.15.1",
     "war3-objectdata-th": "^0.2.8",
     "war3-transformer": "^3.0.9",
     "war3tstlhelper": "1.0.1",
