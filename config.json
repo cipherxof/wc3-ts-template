@@ -7,5 +7,15 @@
     "-launch",
     "-windowmode",
     "windowed"
-  ]
+  ],
+  "wtsParserOutputFolder": "src/WTS Generated Enums",
+  "wtsParserGeneratedEnumNames": {
+      "units": "WTS_Units",
+      "items": "WTS_Items",
+      "destructibles": "WTS_Destructibles",
+      "doodads": "WTS_Doodads",
+      "abilities": "WTS_Abilities",
+      "buffsEffects": "WTS_Buffs_Effects",
+      "upgrades": "WTS_Upgrades"
+  }
 }
