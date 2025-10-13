@@ -31,7 +31,7 @@ export function loadJsonFile(fname: string) {
 
 /**
  * Convert a Buffer to ArrayBuffer
- * @param buf
+ * @param b
  */
 export function toArrayBuffer(b: Buffer): ArrayBuffer {
   var ab = new ArrayBuffer(b.length);
@@ -43,7 +43,7 @@ export function toArrayBuffer(b: Buffer): ArrayBuffer {
 }
 
 /**
- * Convert a ArrayBuffer to Buffer
+ * Convert an ArrayBuffer to Buffer
  * @param ab
  */
 export function toBuffer(ab: ArrayBuffer) {
@@ -95,11 +95,8 @@ export function compileMap(config: IProjectConfig) {
     return false;
   }
 
-  const tsLua = "./dist/tstl_output.lua";
-
-  if (fs.existsSync(tsLua)) {
-    fs.unlinkSync(tsLua);
-  }
+  logger.info("Cleaning dist directory...");
+  fs.removeSync("./dist");
 
   logger.info(`Building "${config.mapFolder}"...`);
   fs.copySync(`./maps/${config.mapFolder}`, `./dist/${config.mapFolder}`);
@@ -110,6 +107,7 @@ export function compileMap(config: IProjectConfig) {
   logger.info("Transpiling TypeScript to Lua...");
   execSync('tstl -p tsconfig.json', { stdio: 'inherit' });
 
+  const tsLua = "./dist/tstl_output.lua";
   if (!fs.existsSync(tsLua)) {
     logger.error(`Could not find "${tsLua}"`);
     return false;
