@@ -27,9 +27,9 @@ function tsMain() {
     print(" ");
     print("Welcome to TypeScript!");
 
-    const unit = new Unit(Players[0], FourCC(Units.Footman), 0, 0, 270);
+    const unit = Unit.create(Players[0], FourCC(Units.Footman), 0, 0, 270)!;
 
-    new Timer().start(1.0, true, () => {
+    Timer.create().start(1.0, true, () => {
       unit.color = Players[math.random(0, bj_MAX_PLAYERS)].color;
     });
   } catch (e) {
