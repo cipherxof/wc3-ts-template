@@ -144,7 +144,7 @@ export function compileMap(config: IProjectConfig) {
  * Formatter for log messages.
  */
 const loggerFormatFunc = printf(({ level, message, timestamp }) => {
-  return `[${timestamp.replace("T", " ").split(".")[0]}] ${level}: ${message}`;
+  return `[${(timestamp as string).replace("T", " ").split(".")[0]}] ${level}: ${message}`;
 });
 
 /**
