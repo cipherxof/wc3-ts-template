@@ -44,7 +44,7 @@ Open `config.json` in your editor and set the path to your `Warcraft III.exe`:
 
 ```json
 {
-  "gameExecutable": "C:\\Games\\Warcraft III\\_retail_\\x86_64\\Warcraft III.exe"
+  "gameExecutable": "C:\\Program Files (x86)\\Warcraft III\\_retail_\\x86_64\\Warcraft III.exe"
 }
 ```
 
