@@ -1,0 +1,7 @@
+amends "assets-schema.pkl"
+
+// Files under assets/ keep their relative paths unless mapped here.
+// paths {
+//   ["icons/BTNMySword.blp"] = "ReplaceableTextures\\CommandButtons\\BTNMySword.blp"
+//   ["icons/DISBTNMySword.blp"] = "ReplaceableTextures\\CommandButtonsDisabled\\DISBTNMySword.blp"
+// }

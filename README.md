@@ -14,6 +14,8 @@
 | `maps/map.w3x/` | Terrain, placements, imports, and editor triggers |
 | `src/` | Gameplay code, starting with `src/main.ts` |
 | `objects/definitions/` | Custom object definitions in Pkl |
+| `assets/` | Models, textures, icons, sounds, and other imported files |
+| `assets.pkl` | Optional custom import paths and exclusions |
 | `scripts/` | Build pipeline, compilation, testing, and developer tooling |
 
 Builds write to `dist/`. Keep editing the source map in `maps/`; generated output
@@ -37,6 +39,24 @@ then run:
 ```powershell
 deno task test
 ```
+
+## Import resources without the Import Manager
+
+Put files under `assets/`. Their relative paths become custom paths in the map:
+`assets/ReplaceableTextures/CommandButtons/BTNMySword.blp` becomes
+`ReplaceableTextures\CommandButtons\BTNMySword.blp`.
+Build and test include them automatically. Use `assets.pkl` for path overrides.
+
+```powershell
+deno task assets:check
+# Close the map in World Editor before syncing source-map files.
+deno task assets:sync
+```
+
+Reopen the source map to use the imports in World Editor. Commit the generated
+`.asset-state/` files with source-map changes; they track ownership so later syncs
+can safely update or remove managed imports. Never delete this state to resolve a
+conflict. See the [asset import guide](https://wc3.dev/framework/docs/assets/).
 
 ## Development checks
 

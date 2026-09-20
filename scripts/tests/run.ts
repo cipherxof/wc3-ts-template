@@ -14,6 +14,7 @@ import { loadProjectConfig } from "../config.ts";
 import { createBuildConfig, validateBaseMap } from "../compile.ts";
 import { plugin as wcraftLintPlugin } from "../lint/wcraft-rules.ts";
 import { validateJsonSyntax, validateProjectJsonFiles } from "../validate-json.ts";
+import "./assets.ts";
 
 test("unit aliases, null inheritance, lists and explicit property overrides", () => {
   const data = new ObjectData();
@@ -232,7 +233,7 @@ test("Deno file staging and MPQ packaging preserve nested binary data", () => {
     createMapFromDir(archive, staged);
     const map = new War3Map();
     map.load(Deno.readFileSync(archive));
-    assert.deepEqual(new Uint8Array(map.get("assets/binary.dat")!.arrayBuffer()!), bytes);
+    assert.deepEqual(new Uint8Array(map.get("assets\\binary.dat")!.arrayBuffer()!), bytes);
     assert.deepEqual(new Uint8Array(toArrayBuffer(bytes.subarray(1, 3))), new Uint8Array([255, 128]));
     removeIfExists(staged);
     removeIfExists(staged);
@@ -251,10 +252,10 @@ test("checked-in base map packages without changing its metadata or assets", () 
     const map = new War3Map();
     map.load(Deno.readFileSync(archive));
     for (const filename of getFilesInDirectory(source)) {
-      const relative = path.relative(source, filename).replace(/\\/g, "/");
+      const relative = path.relative(source, filename).replace(/\//g, "\\");
       assert.deepEqual(new Uint8Array(map.get(relative)!.arrayBuffer()!), Deno.readFileSync(filename), relative);
     }
-    assert(map.getImportNames().includes("war3map.w3i"));
+    assert(!map.getImportNames().includes("war3map.w3i"));
   } finally {
     removeIfExists(dir);
   }

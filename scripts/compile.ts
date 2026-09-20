@@ -7,6 +7,7 @@ import { IProjectConfig } from "./config.ts";
 import { injectObjectData } from "./object-files.ts";
 import { logger, runCommand } from "./utils.ts";
 import { evaluateObjects } from "./evaluate-objects.ts";
+import { applyAssetPlan, assetLocations, evaluateAssetConfig, planAssets } from "./assets.ts";
 
 interface TsConfig {
   compilerOptions: {
@@ -51,6 +52,10 @@ export function compileMap(config: IProjectConfig): string {
   const sourcePath = path.resolve("maps", config.mapFolder);
   const destPath = path.resolve("dist", config.mapFolder);
   validateBaseMap(sourcePath);
+  const assetConfig = evaluateAssetConfig();
+  const { stateFile } = assetLocations(Deno.cwd(), config.mapFolder);
+  // Preflight before generation/staging; source map ownership is never changed by a build.
+  planAssets(Deno.cwd(), sourcePath, stateFile, assetConfig);
 
   // EVALUATE PKL OBJECTS
   logger.info("Evaluating Pkl object data...");
@@ -61,6 +66,7 @@ export function compileMap(config: IProjectConfig): string {
   if (path.dirname(destPath) !== dist || destPath === dist) throw new Error("Map staging path must be a direct child of dist.");
   removeIfExists(destPath);
   copySync(sourcePath, destPath);
+  applyAssetPlan(planAssets(Deno.cwd(), destPath, stateFile, assetConfig));
   const bundle = path.resolve(loadJsonFile<TsConfig>("tsconfig.json").tstl.luaBundle);
   if (!bundle.startsWith(dist + path.SEPARATOR)) throw new Error("Lua bundle must be inside dist.");
   removeIfExists(bundle);

@@ -32,8 +32,10 @@ export function createMapFromDir(output: string, dir: string) {
 
   for (const fileName of files) {
     const contents = toArrayBuffer(Deno.readFileSync(fileName));
-    const archivePath = path.relative(dir, fileName).replace(/\\/g, "/");
-    const imported = map.import(archivePath, contents);
+    const archivePath = path.relative(dir, fileName).replace(/\//g, "\\");
+    // Copy the staged import index verbatim. map.import() would incorrectly add
+    // internal map files and overwrite the carefully merged war3map.imp on save.
+    const imported = map.set(archivePath, contents);
 
     if (!imported) {
       throw new Error("Failed to import " + archivePath);

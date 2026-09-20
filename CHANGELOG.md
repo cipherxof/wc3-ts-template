@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+- Automatic folder-based resource imports with optional Pkl custom-path mappings
+  and exclusions, shared by packed builds and directory playtests.
+- `assets:check` and `assets:sync` for explicit World Editor source-map imports,
+  with hash-based ownership, collision checks, stale removal, and I/O rollback.
+- Preserve the staged import index during packaging and use Warcraft backslash
+  archive paths; internal map files are no longer registered as imported assets.
+- Asset regression tests and a separate real-Pkl CLI integration test.
+
 ## 0.1.0-alpha.1 — release preparation
 
 Initial alpha of w3ts-framework, based on wc3-ts-template.

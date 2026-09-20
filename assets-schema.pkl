@@ -1,0 +1,7 @@
+module wc3.assets
+
+/// Source paths relative to assets/ mapped to exact in-map custom paths.
+paths: Mapping<String(!isEmpty), String(!isEmpty)> = new {}
+
+/// Exact source file paths or directory prefixes ending in '/'. No glob syntax.
+exclude: Listing<String(!isEmpty)> = new {}

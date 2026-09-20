@@ -11,6 +11,7 @@ deno install --frozen
 deno task typecheck
 deno task lint
 deno task test:unit
+deno task test:assets:pkl
 deno task build
 deno task build -minify
 ```
@@ -19,6 +20,12 @@ Tests exercise property normalization, invalid manifests, rawcode collisions,
 all seven categories through binary serialization, file persistence, source-map
 validation, configuration isolation, lint, archive preservation, and CLI failures.
 They do not replace an in-game test.
+
+Asset tests cover custom/default import paths, ownership conflicts, rollback,
+case collisions, symlinks, stale removal, and archive round trips.
+`test:assets:pkl` additionally requires Pkl and runs the real check/sync CLI in an
+isolated temporary map. For asset changes, also verify a real model and its textures
+in World Editor after syncing, saving, and reopening, then play the packed map.
 
 For object-authoring changes, also evaluate representative populated Pkl definitions
 and inspect the built objects. Empty registries can build successfully without
