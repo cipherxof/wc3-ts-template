@@ -38,6 +38,7 @@ function record(value: unknown, context: string): Record<string, unknown> {
 
 /** Null means inherit; explicit false, zero, empty strings and lists are overrides. */
 function normalizeProps(props: Record<string, unknown>, base: object, context: string): Record<string, unknown> {
+  // MAP FRIENDLY NAMES AND ALIASES TO ENGINE FIELDS
   const names = new Map(Object.keys(base).map(name => [friendlyPropertyName(name), name]));
   for (const [alias, name] of Object.entries({
     abilities: "normal", heroAbilities: "hero", name: "nameEditorOnly",
@@ -45,6 +46,8 @@ function normalizeProps(props: Record<string, unknown>, base: object, context: s
   })) {
     if (Object.prototype.hasOwnProperty.call(base, name)) names.set(alias, name);
   }
+
+  // VALIDATE AND CONVERT PROPERTY VALUES
   const result: Record<string, unknown> = {};
   for (const [name, value] of Object.entries(props)) {
     if (value == null) continue;
@@ -74,25 +77,37 @@ export function applyObjectData(objectData: ObjectData, input: unknown): void {
   const data = record(input, "Object manifest");
   const seen = new Map<string, string>();
   const pending: Array<() => void> = [];
+
+  // PASS 1: VALIDATE OBJECT MANIFEST & QUEUE CREATION
   for (const [category, entries] of Object.entries(data)) {
-    if (!Object.prototype.hasOwnProperty.call(categories, category)) {
+    // RESOLVE OBJECT CATEGORY
+    if (!Object.hasOwn(categories, category)) {
       throw new Error(`Unknown object category '${category}'.`);
     }
     const container: Container<IDs> = objectData[categories[category as keyof typeof categories]];
+
     for (const [key, value] of Object.entries(record(entries, category))) {
       const context = `${category}['${key}']`;
       const { id = key, base, properties, ...props } = record(value, context);
+
+      // VALIDATE RAWCODE FORMAT (4 CHARACTERS)
       for (const [label, rawcode] of [["id", id], ["base", base]]) {
         if (typeof rawcode !== "string" || !/^[A-Za-z0-9]{4}$/.test(rawcode)) {
           throw new Error(`${context}: ${label} '${rawcode}' must be a four-character alphanumeric rawcode.`);
         }
       }
+
+      // CHECK FOR DUPLICATES AND ID COLLISIONS
       const customId = id as string;
       if (seen.has(customId)) throw new Error(`${context}: duplicate ID '${customId}' already defined in ${seen.get(customId)}.`);
       seen.set(customId, context);
       if (container.get(customId)) throw new Error(`${context}: ID '${customId}' already exists in game or map data.`);
+
+      // VERIFY BASE OBJECT EXISTS
       const source = container.get(base as string);
       if (!source) throw new Error(`${context}: base '${base}' does not exist.`);
+
+      // NORMALIZE PROPERTIES & QUEUE OBJECT CREATION
       const normalized = {
         ...normalizeProps(props, source, context),
         ...normalizeProps(properties == null ? {} : record(properties, `${context}.properties`), source, context),
@@ -100,5 +115,7 @@ export function applyObjectData(objectData: ObjectData, input: unknown): void {
       pending.push(() => Object.assign(container.copy(source, customId)!, normalized));
     }
   }
+
+  // PASS 2: APPLY ALL PENDING OBJECTS
   for (const apply of pending) apply();
 }
