@@ -23,7 +23,8 @@ interface TsConfig {
   };
 }
 
-/** Emit an isolated config beside the source config to preserve relative paths. */
+/** TODO: Look at */
+/** Use isolated config to preserve relative paths. */
 export function createBuildConfig(config: IProjectConfig): string {
   const tsconfig = loadJsonFile<TsConfig>("tsconfig.json");
   const plugin = tsconfig.compilerOptions.plugins.find((entry: { transform: string }) => entry.transform === "war3-transformer");
@@ -37,22 +38,25 @@ export function createBuildConfig(config: IProjectConfig): string {
 }
 
 export function compileMap(config: IProjectConfig): string {
-  const source = path.resolve("maps", config.mapFolder);
-  const destination = path.resolve("dist", config.mapFolder);
-  if (!existsSync(path.join(source, "war3map.lua"))) throw new Error(`Missing ${source}/war3map.lua. Save the base map with Lua enabled.`);
+  // VALIDATE BASE MAP
+  const sourcePath = path.resolve("maps", config.mapFolder);
+  const destPath = path.resolve("dist", config.mapFolder);
+  if (!existsSync(path.join(sourcePath, "war3map.lua"))) throw new Error(`Missing ${sourcePath}/war3map.lua. Save the base map with Lua as selected scripting language.`);
 
+  // EVALUATE PKL OBJECTS
   logger.info("Evaluating Pkl object data...");
   evaluateObjects();
 
-  // Only replace this map's staging directory, after verifying the resolved path.
+  // STAGE MAP DIRECTORY
   const dist = path.resolve("dist");
-  if (path.dirname(destination) !== dist || destination === dist) throw new Error("Map staging path must be a direct child of dist.");
-  removeIfExists(destination);
-  copySync(source, destination);
+  if (path.dirname(destPath) !== dist || destPath === dist) throw new Error("Map staging path must be a direct child of dist.");
+  removeIfExists(destPath);
+  copySync(sourcePath, destPath);
   const bundle = path.resolve(loadJsonFile<TsConfig>("tsconfig.json").tstl.luaBundle);
   if (!bundle.startsWith(dist + path.SEPARATOR)) throw new Error("Lua bundle must be inside dist.");
   removeIfExists(bundle);
 
+  // TRANSPILE TYPESCRIPT TO LUA
   const buildConfig = createBuildConfig(config);
   try {
     logger.info("Transpiling TypeScript to Lua...");
@@ -62,11 +66,14 @@ export function compileMap(config: IProjectConfig): string {
     removeIfExists(buildConfig);
   }
 
+  // INJECT OBJECT DATA
   logger.info("Applying Pkl object data...");
-  injectObjectData(destination, loadJsonFile("src/generated/objects.json"));
-  const mapLua = path.join(destination, "war3map.lua");
+  injectObjectData(destPath, loadJsonFile("src/generated/objects.json"));
+
+  // MERGE LUA SCRIPTS
+  const mapLua = path.join(destPath, "war3map.lua");
   let contents = Deno.readTextFileSync(mapLua) + "\n" + Deno.readTextFileSync(bundle);
   if (config.minifyScript) contents = luamin.minify(contents);
   Deno.writeTextFileSync(mapLua, contents);
-  return destination;
+  return destPath;
 }
