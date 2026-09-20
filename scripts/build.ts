@@ -52,7 +52,6 @@ export function createMapFromDir(output: string, dir: string) {
 }
 
 
-// TODO: Look at
 /** Preserve modern metadata that the pinned library cannot fully parse. */
 function saveMapArchive(map: InstanceType<typeof War3Map>): ArrayBuffer | Uint8Array | null {
   const info = map.get("war3map.w3i")?.arrayBuffer();
