@@ -11,7 +11,7 @@ import MapInfoModule from "mdx-m3-viewer-th/dist/cjs/parsers/w3x/w3i/file.js";
 import { applyObjectData } from "../object-data.ts";
 import { injectObjectData } from "../object-files.ts";
 import { loadProjectConfig } from "../config.ts";
-import { createBuildConfig } from "../compile.ts";
+import { createBuildConfig, validateBaseMap } from "../compile.ts";
 import { plugin as wcraftLintPlugin } from "../lint/wcraft-rules.ts";
 import { validateJsonSyntax, validateProjectJsonFiles } from "../validate-json.ts";
 
@@ -123,6 +123,25 @@ test("config overrides are validated and malformed JSON fails clearly", () => {
     assert.throws(() => loadProjectConfig(dir), /mapFolder/);
     Deno.writeTextFileSync(path.join(dir, "config.local.json"), "{");
     assert.throws(() => loadProjectConfig(dir), /Cannot read.*config.local.json/);
+  } finally {
+    removeIfExists(dir);
+  }
+});
+
+test("base map validation rejects archives and incomplete directory exports", () => {
+  const dir = Deno.makeTempDirSync({ prefix: "w3ts-map-validation-" });
+  try {
+    const packed = path.join(dir, "packed.w3x");
+    Deno.writeTextFileSync(packed, "archive");
+    assert.throws(() => validateBaseMap(packed), /unpacked/);
+    assert.throws(() => validateBaseMap(dir), /war3map.lua/);
+    Deno.writeTextFileSync(path.join(dir, "war3map.lua"), "-- Lua");
+    assert.throws(() => validateBaseMap(dir), /war3map.w3i/);
+    Deno.mkdirSync(path.join(dir, "war3map.w3i"));
+    assert.throws(() => validateBaseMap(dir), /war3map.w3i/);
+    Deno.removeSync(path.join(dir, "war3map.w3i"));
+    Deno.writeFileSync(path.join(dir, "war3map.w3i"), new Uint8Array());
+    assert.doesNotThrow(() => validateBaseMap(dir));
   } finally {
     removeIfExists(dir);
   }

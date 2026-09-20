@@ -23,7 +23,6 @@ interface TsConfig {
   };
 }
 
-/** TODO: Look at */
 /** Use isolated config to preserve relative paths. */
 export function createBuildConfig(config: IProjectConfig): string {
   const tsconfig = loadJsonFile<TsConfig>("tsconfig.json");
@@ -37,11 +36,21 @@ export function createBuildConfig(config: IProjectConfig): string {
   return filename;
 }
 
+/** Reject packed maps and incomplete exports before generating any output. */
+export function validateBaseMap(sourcePath: string): void {
+  for (const filename of ["war3map.lua", "war3map.w3i"]) {
+    const file = path.join(sourcePath, filename);
+    if (!existsSync(file) || !Deno.statSync(file).isFile) {
+      throw new Error(`Missing ${file}. Use an unpacked .w3x directory saved by the World Editor with Lua as its scripting language. See docs/custom-maps.md.`);
+    }
+  }
+}
+
 export function compileMap(config: IProjectConfig): string {
   // VALIDATE BASE MAP
   const sourcePath = path.resolve("maps", config.mapFolder);
   const destPath = path.resolve("dist", config.mapFolder);
-  if (!existsSync(path.join(sourcePath, "war3map.lua"))) throw new Error(`Missing ${sourcePath}/war3map.lua. Save the base map with Lua as selected scripting language.`);
+  validateBaseMap(sourcePath);
 
   // EVALUATE PKL OBJECTS
   logger.info("Evaluating Pkl object data...");
