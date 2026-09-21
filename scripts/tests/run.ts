@@ -1,19 +1,19 @@
-import { removeIfExists, writeJsonFile, loadJsonFile } from "../files.ts";
+import { removeIfExists, writeJsonFile, loadJsonFile } from "../shared/files.ts";
 import assert from "node:assert/strict";
 const test = Deno.test;
 import * as path from "@std/path";
 import { ObjectData } from "war3-objectdata-th";
-import { SimpleFile, LevelFile, War3Map } from "../warcraft-library.ts";
+import { SimpleFile, LevelFile, War3Map } from "../shared/warcraft-library.ts";
 import { createMapFromDir } from "../build.ts";
-import { getFilesInDirectory, runCommand, toArrayBuffer } from "../utils.ts";
+import { getFilesInDirectory, runCommand, toArrayBuffer } from "../shared/utils.ts";
 import { copySync } from "@std/fs";
 import MapInfoModule from "mdx-m3-viewer-th/dist/cjs/parsers/w3x/w3i/file.js";
-import { applyObjectData } from "../object-data.ts";
-import { injectObjectData } from "../object-files.ts";
-import { loadProjectConfig } from "../config.ts";
+import { applyObjectData } from "../objects/data.ts";
+import { injectObjectData } from "../objects/files.ts";
+import { loadProjectConfig } from "../shared/config.ts";
 import { createBuildConfig, validateBaseMap } from "../compile.ts";
 import { plugin as wcraftLintPlugin } from "../lint/wcraft-rules.ts";
-import { validateJsonSyntax, validateProjectJsonFiles } from "../validate-json.ts";
+import { validateJsonSyntax, validateProjectJsonFiles } from "../tooling/validate-json.ts";
 import "./assets.ts";
 import "./map-settings.ts";
 
@@ -265,7 +265,7 @@ test("checked-in base map packages without changing its metadata or assets", () 
 test("CLI failures persist timestamped logs and return a failing exit code", () => {
   const dir = Deno.makeTempDirSync({ prefix: "w3ts-log-tests-" });
   try {
-    const moduleUrl = new URL("../utils.ts", import.meta.url).href;
+    const moduleUrl = new URL("../shared/utils.ts", import.meta.url).href;
     const script = path.join(dir, "cli.ts");
     Deno.writeTextFileSync(script, `import { logger, runCli } from ${JSON.stringify(moduleUrl)};
 logger.info("starting");

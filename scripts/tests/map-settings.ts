@@ -1,12 +1,12 @@
 import assert from "node:assert/strict";
 import * as path from "@std/path";
 import MapInfoModule from "mdx-m3-viewer-th/dist/cjs/parsers/w3x/w3i/file.js";
-import { patchMapInfo, patchSettingsText, planMapSettings, validateMapSettings, evaluateMapSettings } from "../map-settings.ts";
+import { patchMapInfo, patchSettingsText, planMapSettings, validateMapSettings, evaluateMapSettings } from "../map-settings/settings.ts";
 import { createMapFromDir } from "../build.ts";
-import { War3Map } from "../warcraft-library.ts";
-import { toArrayBuffer } from "../utils.ts";
-import { readMapInfo } from "../map-info.ts";
-import { luaString } from "../map-settings-lua.ts";
+import { War3Map } from "../shared/warcraft-library.ts";
+import { toArrayBuffer } from "../shared/utils.ts";
+import { readMapInfo } from "../map-settings/map-info.ts";
+import { luaString } from "../map-settings/lua.ts";
 
 const fixture = new URL("./fixtures/map-settings-v39/", import.meta.url);
 

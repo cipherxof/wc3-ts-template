@@ -1,4 +1,4 @@
-import { loadProjectConfig } from "./config.ts";
+import { loadProjectConfig } from "./shared/config.ts";
 import { existsSync } from "@std/fs";
 import * as path from "@std/path";
 

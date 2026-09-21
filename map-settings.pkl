@@ -1,36 +1,36 @@
 amends "map-settings-schema.pkl"
 
 // Unspecified settings inherit the source map.
-info {
-  name = "My Map"
-  author = "Your name"
-  description = "A custom Warcraft III map."
-  recommendedPlayers = "1-4"
-}
-loadingScreen {
-  title = "Welcome"
-  text = "Work together to win."
-}
-gameplay {
-  heroMaxLevel = 25
-  foodLimit = 200
-}
-players {
-  ["0"] {
-    controller = "user"
-    race = "human"
-  }
-}
-forces {
-  ["0"] {
-    allied = true
-    sharedVision = true
-  }
-}
-environment {
-  fog {
-    enabled = true
-    start = 1000.0
-    end = 5000.0
-  }
-}
+// info {
+//   name = "My Map"
+//   author = "Your name"
+//   description = "A custom Warcraft III map."
+//   recommendedPlayers = "1-4"
+// }
+// loadingScreen {
+//   title = "Welcome"
+//   text = "Work together to win."
+// }
+// gameplay {
+//   heroMaxLevel = 25
+//   foodLimit = 200
+// }
+// players {
+//   ["0"] {
+//     controller = "user"
+//     race = "human"
+//   }
+// }
+// forces {
+//   ["0"] {
+//     allied = true
+//     sharedVision = true
+//   }
+// }
+// environment {
+//   fog {
+//     enabled = true
+//     start = 1000.0
+//     end = 5000.0
+//   }
+// }

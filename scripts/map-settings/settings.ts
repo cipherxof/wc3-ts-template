@@ -1,12 +1,12 @@
 import * as path from "@std/path";
 import { existsSync } from "@std/fs";
-import { loadProjectConfig } from "./config.ts";
-import { logger, runCli } from "./utils.ts";
+import { loadProjectConfig } from "../shared/config.ts";
+import { logger, runCli } from "../shared/utils.ts";
 
-import { extendedOptions } from "./map-settings-options.ts";
-import { patchMapInfo, hasExtendedSettings } from "./map-settings-binary.ts";
-import { patchSettingsLua } from "./map-settings-lua.ts";
-export { patchMapInfo } from "./map-settings-binary.ts";
+import { extendedOptions } from "./options.ts";
+import { patchMapInfo, hasExtendedSettings } from "./binary.ts";
+import { patchSettingsLua } from "./lua.ts";
+export { patchMapInfo } from "./binary.ts";
 
 type TextOverrides = Record<string, string>;
 type Sections = Record<string, TextOverrides>;

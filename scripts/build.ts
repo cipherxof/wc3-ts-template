@@ -1,7 +1,7 @@
 import * as path from "@std/path";
-import { War3Map } from "./warcraft-library.ts";
-import { getFilesInDirectory, logger, toArrayBuffer, runCli } from "./utils.ts";
-import { loadProjectConfig } from "./config.ts";
+import { War3Map } from "./shared/warcraft-library.ts";
+import { getFilesInDirectory, logger, toArrayBuffer, runCli } from "./shared/utils.ts";
+import { loadProjectConfig } from "./shared/config.ts";
 import { compileMap } from "./compile.ts";
 
 function main() {

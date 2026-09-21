@@ -1,4 +1,4 @@
-import { runCli, runCommand } from "./utils.ts";
+import { runCli, runCommand } from "../shared/utils.ts";
 
 export function evaluateObjects(): void {
   Deno.mkdirSync("src/generated", { recursive: true });

@@ -1,6 +1,6 @@
 import { readMapInfo, fieldEdit, applyByteEdits, type ByteEdit } from "./map-info.ts";
-import { controllers, races, forceBits } from "./map-settings-options.ts";
-import type { MapSettings } from "./map-settings.ts";
+import { controllers, races, forceBits } from "./options.ts";
+import type { MapSettings } from "./settings.ts";
 
 export function hasExtendedSettings(s: MapSettings): boolean {
   return !!(Object.keys(s.players).length || Object.keys(s.forces).length || Object.keys(s.environment).length);

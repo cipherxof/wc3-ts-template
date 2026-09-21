@@ -1,7 +1,7 @@
 /** Opt-in integration checks using the real Pkl executable. */
 import assert from "node:assert/strict";
 import * as path from "@std/path";
-import { evaluateMapSettings } from "../map-settings.ts";
+import { evaluateMapSettings } from "../map-settings/settings.ts";
 
 Deno.test("map settings Pkl schema evaluates overrides and rejects invalid values", () => {
   const root = Deno.makeTempDirSync({ prefix: "w3ts-settings-pkl-" });

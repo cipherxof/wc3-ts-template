@@ -1,8 +1,8 @@
 /** Opt-in integration checks: requires the real Pkl executable. */
 import assert from "node:assert/strict";
 import * as path from "@std/path";
-import { evaluateAssetConfig } from "../assets.ts";
-import { importPath, readImports } from "../asset-imports.ts";
+import { evaluateAssetConfig } from "../assets/assets.ts";
+import { importPath, readImports } from "../assets/imports.ts";
 
 Deno.test("Pkl mappings and real asset CLI check/sync work in an isolated map", () => {
   const root = Deno.makeTempDirSync({ prefix: "w3ts-assets-pkl-" });
@@ -25,7 +25,7 @@ paths {
     Deno.writeFileSync(path.join(map, "war3map.w3i"), new Uint8Array());
     Deno.writeTextFileSync(path.join(root, "config.json"), JSON.stringify({ mapFolder: "map.w3x", gameExecutable: "game.exe", minifyScript: false, outputFolder: "dist/bin", launchArgs: [] }));
     const run = (mode: string) => new Deno.Command(Deno.execPath(), {
-      args: ["run", "-A", "--config", path.fromFileUrl(new URL("../../deno.json", import.meta.url)), path.fromFileUrl(new URL("../assets.ts", import.meta.url)), mode],
+      args: ["run", "-A", "--config", path.fromFileUrl(new URL("../../deno.json", import.meta.url)), path.fromFileUrl(new URL("../assets/assets.ts", import.meta.url)), mode],
       cwd: root, stdout: "piped", stderr: "piped",
     }).outputSync();
     const check = run("check");

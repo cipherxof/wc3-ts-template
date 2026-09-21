@@ -1,8 +1,8 @@
 import { createRequire } from "node:module";
 import { readMapInfo } from "./map-info.ts";
-import type { MapSettings } from "./map-settings.ts";
-import { hasExtendedSettings } from "./map-settings-binary.ts";
-import { forceBits } from "./map-settings-options.ts";
+import type { MapSettings } from "./settings.ts";
+import { hasExtendedSettings } from "./binary.ts";
+import { forceBits } from "./options.ts";
 
 // Use the same parser as the existing Lua minifier. AST ranges keep strings,
 // comments, nested blocks and unrelated user initialization intact.

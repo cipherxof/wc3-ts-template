@@ -1,6 +1,6 @@
 import War3TSTLHelper from "war3tstlhelper";
-import { logger } from "./utils.ts";
-import { loadProjectConfig } from "./config.ts";
+import { logger } from "../shared/utils.ts";
+import { loadProjectConfig } from "../shared/config.ts";
 
 const config = loadProjectConfig();
 

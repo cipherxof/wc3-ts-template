@@ -1,8 +1,8 @@
 import * as path from "@std/path";
 import { createHash } from "node:crypto";
-import { loadProjectConfig } from "./config.ts";
-import { importPath, readImports, writeImports } from "./asset-imports.ts";
-import { logger, runCli } from "./utils.ts";
+import { loadProjectConfig } from "../shared/config.ts";
+import { importPath, readImports, writeImports } from "./imports.ts";
+import { logger, runCli } from "../shared/utils.ts";
 
 export interface AssetConfig { paths: Record<string, string>; exclude: string[]; }
 export interface Asset { source: string; target: string; bytes: Uint8Array; hash: string; }
@@ -250,7 +250,7 @@ export function assetLocations(root: string, mapFolder: string) {
 
 function main(): void {
   const mode = Deno.args[0];
-  if (!["check", "sync"].includes(mode) || Deno.args.length !== 1) throw new Error("Usage: deno run -A scripts/assets.ts check|sync");
+  if (!["check", "sync"].includes(mode) || Deno.args.length !== 1) throw new Error("Usage: deno run -A scripts/assets/assets.ts check|sync");
   const root = Deno.cwd();
   const { mapDir, stateFile } = assetLocations(root, loadProjectConfig(root).mapFolder);
   for (const name of ["war3map.lua", "war3map.w3i"]) {

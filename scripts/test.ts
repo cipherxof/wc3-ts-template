@@ -1,7 +1,7 @@
 import { execFile } from "node:child_process";
-import { loadProjectConfig } from "./config.ts";
+import { loadProjectConfig } from "./shared/config.ts";
 import { compileMap } from "./compile.ts";
-import { logger, runCli } from "./utils.ts";
+import { logger, runCli } from "./shared/utils.ts";
 
 function main(): void {
   const config = loadProjectConfig();

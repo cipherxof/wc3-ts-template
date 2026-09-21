@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import * as path from "@std/path";
-import { applyAssetPlan, assetLocations, collectAssets, planAssets, validateAssetConfig } from "../assets.ts";
-import { importPath, readImports, writeImports } from "../asset-imports.ts";
+import { applyAssetPlan, assetLocations, collectAssets, planAssets, validateAssetConfig } from "../assets/assets.ts";
+import { importPath, readImports, writeImports } from "../assets/imports.ts";
 import { createMapFromDir } from "../build.ts";
-import { War3Map } from "../warcraft-library.ts";
+import { War3Map } from "../shared/warcraft-library.ts";
 import MapInfoModule from "mdx-m3-viewer-th/dist/cjs/parsers/w3x/w3i/file.js";
 import { copySync } from "@std/fs";
 

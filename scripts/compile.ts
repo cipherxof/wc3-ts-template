@@ -1,14 +1,14 @@
-import { removeIfExists, writeJsonFile, loadJsonFile } from "./files.ts";
+import { removeIfExists, writeJsonFile, loadJsonFile } from "./shared/files.ts";
 import { existsSync, copySync } from "@std/fs";
 import * as path from "@std/path";
 import { fromFileUrl } from "@std/path";
 import luamin from "luamin";
-import { IProjectConfig } from "./config.ts";
-import { injectObjectData } from "./object-files.ts";
-import { logger, runCommand } from "./utils.ts";
-import { evaluateObjects } from "./evaluate-objects.ts";
-import { applyAssetPlan, assetLocations, evaluateAssetConfig, planAssets } from "./assets.ts";
-import { evaluateMapSettings, planMapSettings, type MapSettings } from "./map-settings.ts";
+import { IProjectConfig } from "./shared/config.ts";
+import { injectObjectData } from "./objects/files.ts";
+import { logger, runCommand } from "./shared/utils.ts";
+import { evaluateObjects } from "./objects/evaluate.ts";
+import { applyAssetPlan, assetLocations, evaluateAssetConfig, planAssets } from "./assets/assets.ts";
+import { evaluateMapSettings, planMapSettings, type MapSettings } from "./map-settings/settings.ts";
 
 interface TsConfig {
   compilerOptions: {
