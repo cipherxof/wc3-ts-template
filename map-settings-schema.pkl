@@ -1,0 +1,77 @@
+module wc3.mapSettings
+
+typealias MapText = String(!contains("\u{0}"))
+typealias SectionName = String(matches(Regex("[A-Za-z_][A-Za-z0-9_]*")))
+typealias FieldName = String(matches(Regex("[A-Za-z_][A-Za-z0-9_]*")))
+typealias FieldValue = String(!contains("\n"), !contains("\r"), !contains("\u{0}"))
+
+class MapInfo {
+  name: MapText?
+  author: MapText?
+  description: MapText?
+  recommendedPlayers: MapText?
+}
+
+class LoadingScreen {
+  /// World Editor campaign background index; -1 selects a custom model.
+  background: Int(isBetween(-1, 2147483647))?
+  model: MapText?
+  text: MapText?
+  title: MapText?
+  subtitle: MapText?
+}
+
+/// Null fields inherit the source map. Empty strings explicitly clear text.
+info: MapInfo = new {}
+loadingScreen: LoadingScreen = new {}
+
+/// Raw section/key overrides for war3mapMisc.txt (gameplay constants).
+gameplayConstants: Mapping<SectionName, Mapping<FieldName, FieldValue>> = new {}
+
+/// Raw section/key overrides for war3mapSkin.txt (game interface).
+gameInterface: Mapping<SectionName, Mapping<FieldName, FieldValue>> = new {}
+
+class Player {
+  name: MapText?
+  controller: ("user"|"computer"|"neutral"|"rescuable")?
+  race: ("selectable"|"human"|"orc"|"undead"|"nightelf")?
+  fixedStart: Boolean?
+  x: Float(isBetween(-10000000, 10000000))?
+  y: Float(isBetween(-10000000, 10000000))?
+}
+
+class Force {
+  name: MapText?
+  allied: Boolean?
+  alliedVictory: Boolean?
+  sharedVision: Boolean?
+  sharedControl: Boolean?
+  sharedAdvancedControl: Boolean?
+}
+
+typealias Color = Listing<Int(isBetween(0, 255))>(length == 4)
+class Fog {
+  enabled: Boolean?
+  style: Int(isBetween(0, 2))?
+  start: Float(isBetween(-10000000, 10000000))?
+  end: Float(isBetween(-10000000, 10000000))?
+  density: Float(isBetween(0, 1))?
+  color: Color?
+}
+class Environment {
+  soundEnvironment: MapText?
+  waterColor: Color?
+  fog: Fog = new {}
+}
+class Gameplay {
+  heroMaxLevel: Int(isBetween(1, 10000))?
+  foodLimit: Int(isBetween(0, 300))?
+}
+
+/// Override existing zero-based slot IDs and force indices. Membership is inherited.
+typealias SlotId = String(matches(Regex("([0-9]|1[0-9]|2[0-3])")))
+players: Mapping<SlotId, Player> = new {}
+forces: Mapping<SlotId, Force> = new {}
+environment: Environment = new {}
+/// Typed conveniences; conflicting raw values are rejected.
+gameplay: Gameplay = new {}

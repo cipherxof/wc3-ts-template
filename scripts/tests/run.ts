@@ -15,6 +15,7 @@ import { createBuildConfig, validateBaseMap } from "../compile.ts";
 import { plugin as wcraftLintPlugin } from "../lint/wcraft-rules.ts";
 import { validateJsonSyntax, validateProjectJsonFiles } from "../validate-json.ts";
 import "./assets.ts";
+import "./map-settings.ts";
 
 test("unit aliases, null inheritance, lists and explicit property overrides", () => {
   const data = new ObjectData();

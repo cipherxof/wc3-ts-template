@@ -11,6 +11,8 @@
     "schema:gen": "deno task schema:gen",
     "objects:eval": "deno task objects:eval",
     "assets:check": "deno task assets:check",
+    "settings:check": "deno task settings:check",
+    "test:settings:pkl": "deno task test:settings:pkl",
     "assets:sync": "deno task assets:sync",
     "test": "deno task test",
     "build": "deno task build",

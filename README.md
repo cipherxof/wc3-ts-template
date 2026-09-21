@@ -16,6 +16,7 @@
 | `objects/definitions/` | Custom object definitions in Pkl |
 | `assets/` | Models, textures, icons, sounds, and other imported files |
 | `assets.pkl` | Optional custom import paths and exclusions |
+| `map-settings.pkl` | Map metadata, loading screen, gameplay constants, and interface overrides |
 | `scripts/` | Build pipeline, compilation, testing, and developer tooling |
 
 Builds write to `dist/`. Keep editing the source map in `maps/`; generated output
@@ -57,6 +58,52 @@ Reopen the source map to use the imports in World Editor. Commit the generated
 `.asset-state/` files with source-map changes; they track ownership so later syncs
 can safely update or remove managed imports. Never delete this state to resolve a
 conflict. See the [asset import guide](https://wc3.dev/framework/docs/assets/).
+
+## Map settings in Pkl
+
+Edit `map-settings.pkl` to override internal map settings during `build` and `test`:
+
+```pkl
+amends "map-settings-schema.pkl"
+
+info {
+  name = "My Map"
+  author = "Your name"
+  description = "A cooperative adventure."
+  recommendedPlayers = "1-4"
+}
+loadingScreen {
+  title = "Welcome"
+  text = "Work together to win."
+}
+gameplay {
+  heroMaxLevel = 25
+}
+```
+
+Run `deno task settings:check` to evaluate and validate without changing map files.
+Missing or null metadata fields inherit the source map; `""` clears text. The
+entire file is optional. Overrides apply to the staged map in `dist/`.
+
+`info` and `loadingScreen` patch `war3map.w3i`, preserving other fields and existing
+`TRIGSTR` references. Loading screens also support `subtitle`, `model` (an imported
+in-map path), and `background` (World Editor index, or `-1` for a custom model).
+Models must be imported separately through `assets/`.
+
+`gameplayConstants` merges section/key strings into `war3mapMisc.txt`;
+`gameInterface` does the same for `war3mapSkin.txt`. Use the game's exact section
+and field names. Values use Warcraft's raw text format, including comma-separated
+lists; the framework checks structure, not whether the game recognizes a key.
+Unspecified entries and comments are retained. Null does not delete text-file keys.
+
+Supported map-info versions are 18, 25, 28, 31, 32, 33, and 39; version 18 cannot
+set a custom loading-screen model. Existing player slots and forces, fog, water
+colour and sound environment can also be overridden, with coordinated Lua updates
+(version 28+ Lua maps). Terrain, slot counts, force membership, weather, lighting
+and HD water parameters remain editor-authored. See the [map settings guide](https://wc3.dev/framework/docs/map-settings/)
+for fields, examples and verification limits.
+`dev` validates edits to the settings files; rebuild to apply them.
+Run `deno task test:settings:pkl` for schema integration tests (requires Pkl).
 
 ## Development checks
 

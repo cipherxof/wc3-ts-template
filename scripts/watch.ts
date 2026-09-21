@@ -1,4 +1,6 @@
 import { loadProjectConfig } from "./config.ts";
+import { existsSync } from "@std/fs";
+import * as path from "@std/path";
 
 // Serialize runs so edits made during generation are processed after it finishes.
 export async function watchProject(): Promise<void> {
@@ -22,14 +24,15 @@ export async function watchProject(): Promise<void> {
       running = false;
     }
   }
-  console.log(`Watching objects/**/*.pkl and ${mapDir}/**/*.lua`);
-  const watcher = Deno.watchFs(["objects", mapDir]);
+  console.log(`Watching objects/**/*.pkl, map-settings*.pkl and ${mapDir}/**/*.lua`);
+  const settingsFiles = ["map-settings.pkl", "map-settings-schema.pkl"].filter(file => existsSync(file));
+  const watcher = Deno.watchFs(["objects", mapDir, ...settingsFiles]);
   try {
     for await (const event of watcher) {
       if (!["create", "modify", "remove", "rename"].includes(event.kind)) continue;
-      for (const path of event.paths) {
-        if (path.endsWith(".pkl")) pending.add("objects:eval");
-        if (path.endsWith(".lua")) pending.add("build:defs");
+      for (const file of event.paths) {
+        if (file.endsWith(".pkl")) pending.add(path.basename(file).startsWith("map-settings") ? "settings:check" : "objects:eval");
+        if (file.endsWith(".lua")) pending.add("build:defs");
       }
       if (pending.size) {
         clearTimeout(timer);

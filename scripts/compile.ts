@@ -8,6 +8,7 @@ import { injectObjectData } from "./object-files.ts";
 import { logger, runCommand } from "./utils.ts";
 import { evaluateObjects } from "./evaluate-objects.ts";
 import { applyAssetPlan, assetLocations, evaluateAssetConfig, planAssets } from "./assets.ts";
+import { evaluateMapSettings, planMapSettings, type MapSettings } from "./map-settings.ts";
 
 interface TsConfig {
   compilerOptions: {
@@ -47,11 +48,12 @@ export function validateBaseMap(sourcePath: string): void {
   }
 }
 
-export function compileMap(config: IProjectConfig): string {
+export function compileMap(config: IProjectConfig, mapSettings: MapSettings = evaluateMapSettings()): string {
   // VALIDATE BASE MAP
   const sourcePath = path.resolve("maps", config.mapFolder);
   const destPath = path.resolve("dist", config.mapFolder);
   validateBaseMap(sourcePath);
+  planMapSettings(sourcePath, mapSettings);
   const assetConfig = evaluateAssetConfig();
   const { stateFile } = assetLocations(Deno.cwd(), config.mapFolder);
   // Preflight before generation/staging; source map ownership is never changed by a build.
@@ -67,6 +69,7 @@ export function compileMap(config: IProjectConfig): string {
   removeIfExists(destPath);
   copySync(sourcePath, destPath);
   applyAssetPlan(planAssets(Deno.cwd(), destPath, stateFile, assetConfig));
+  for (const change of planMapSettings(destPath, mapSettings)) Deno.writeFileSync(change.file, change.bytes);
   const bundle = path.resolve(loadJsonFile<TsConfig>("tsconfig.json").tstl.luaBundle);
   if (!bundle.startsWith(dist + path.SEPARATOR)) throw new Error("Lua bundle must be inside dist.");
   removeIfExists(bundle);

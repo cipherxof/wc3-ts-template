@@ -13,6 +13,8 @@
     "typecheck": "deno check scripts/*.ts scripts/tests/*.ts && deno run -A npm:typescript@5.8.2/tsc --noEmit -p tsconfig.json",
     "objects:eval": "deno run -A scripts/evaluate-objects.ts",
     "assets:check": "deno run -A scripts/assets.ts check",
+    "settings:check": "deno run -A scripts/map-settings.ts",
+    "test:settings:pkl": "deno test -A scripts/tests/map-settings-pkl.ts",
     "assets:sync": "deno run -A scripts/assets.ts sync",
     "schema:gen": "deno run -A scripts/generate-pkl-schema.ts",
     "bases:gen": "deno run -A scripts/generate-pkl-bases.ts && deno task schema:gen",
