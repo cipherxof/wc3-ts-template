@@ -10,7 +10,8 @@
     "test": "deno run -A scripts/test.ts",
     "test:unit": "deno test -A scripts/tests/run.ts",
     "test:assets:pkl": "deno test -A scripts/tests/assets-pkl.ts",
-    "typecheck": "deno check scripts/**/*.ts && deno run -A npm:typescript@5.8.2/tsc --noEmit -p tsconfig.json",
+    "typecheck": "deno check scripts/**/*.ts && deno run -A scripts/library/sync.ts --if-needed && deno run -A npm:typescript@5.8.2/tsc --noEmit -p tsconfig.json",
+    "lib:sync": "deno run -A scripts/library/sync.ts",
     "objects:eval": "deno run -A scripts/objects/evaluate.ts",
     "assets:check": "deno run -A scripts/assets/assets.ts check",
     "settings:check": "deno run -A scripts/map-settings/settings.ts",
@@ -26,6 +27,7 @@
   "lint": {
     "plugins": ["./scripts/lint/wcraft-rules.ts"],
     "exclude": [
+      ".lib",
       "node_modules",
       "dist",
       "maps",
@@ -46,6 +48,7 @@
   },
   "fmt": {
     "exclude": [
+      ".lib",
       "node_modules",
       "dist",
       "maps",

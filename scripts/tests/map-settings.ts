@@ -7,6 +7,7 @@ import { War3Map } from "../shared/warcraft-library.ts";
 import { toArrayBuffer } from "../shared/utils.ts";
 import { readMapInfo } from "../map-settings/map-info.ts";
 import { luaString } from "../map-settings/lua.ts";
+import { loadProjectConfig } from "../shared/config.ts";
 
 const fixture = new URL("./fixtures/map-settings-v39/", import.meta.url);
 
@@ -36,7 +37,7 @@ Deno.test("map metadata patches round-trip across supported w3i versions and pre
 });
 
 Deno.test("real Reforged map preserves unknown data and WTS references", () => {
-  const original = Deno.readFileSync(new URL("../../maps/map.w3x/war3map.w3i", import.meta.url));
+  const original = Deno.readFileSync(path.resolve("maps", loadProjectConfig().mapFolder, "war3map.w3i"));
   const start = new DataView(original.buffer).getInt32(0, true) > 27 ? 28 : 12;
   const end = original.indexOf(0, start);
   const patched = patchMapInfo(original, validateMapSettings({ info: { name: "A new name" } }));

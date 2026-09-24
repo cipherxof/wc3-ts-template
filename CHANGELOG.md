@@ -9,6 +9,19 @@
 - Preserve the staged import index during packaging and use Warcraft backslash
   archive paths; internal map files are no longer registered as imported assets.
 - Asset regression tests and a separate real-Pkl CLI integration test.
+- Map libraries: TypeScript packages from JSR listed in `config.json` `libraries` are
+  copied into a git-ignored `.lib/` by `deno task lib:sync` (run automatically by
+  `build`, `test` and `typecheck` when `deno.lock` or the list changes) and mapped
+  in `tsconfig.json` `paths`. Only the files a map imports are compiled into it.
+  Linked checkouts (`deno.json` `links`) are supported for co-development.
+- `deno task build --entry <file>` / `deno task test --entry <file>` build with
+  another entry point, e.g. a library's in-game testbed.
+- `rewriteRelativeImportExtensions` in `tsconfig.json`, so `.ts` import
+  specifiers (as published to JSR) compile.
+- Lint rules for TypeScriptToLua 1.31 hazards in `src/`: `lua-no-finally`,
+  `lua-loop-closure` and `lua-truthiness`.
+- Map settings tests read the map folder from `config.json` instead of assuming
+  `maps/map.w3x`.
 
 ## 0.1.0-alpha.1 — release preparation
 

@@ -94,3 +94,6 @@ typings/
 # Local developer configuration overrides
 config.local.json
 tsconfig.build.*.json
+
+# Map libraries copied by `deno task lib:sync` (see config.json "libraries")
+.lib/

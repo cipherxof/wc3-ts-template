@@ -10,6 +10,8 @@ export interface IProjectConfig {
   launchArgs: string[];
   winePath?: string;
   winePrefix?: string;
+  /** JSR packages compiled into the map (e.g. "@mdlsvensson/wc3-lib"); see scripts/library/sync.ts. */
+  libraries?: string[];
 }
 
 export function readConfig(file: string) {
@@ -36,6 +38,10 @@ export function loadProjectConfig(root = Deno.cwd()): IProjectConfig {
   // TODO: Check if -load with maps even works through wine. Further testing required
   for (const key of ["winePath", "winePrefix"]) {
     if (config[key] !== undefined && typeof config[key] !== "string") throw new Error(`config.${key} must be a string.`);
+  }
+  if (config.libraries !== undefined && (!Array.isArray(config.libraries) ||
+    !config.libraries.every((name: unknown) => typeof name === "string" && /^@[a-z0-9-]+\/[a-z0-9-]+$/.test(name)))) {
+    throw new Error('config.libraries must be an array of JSR package names like "@scope/name".');
   }
   return config as unknown as IProjectConfig;
 }

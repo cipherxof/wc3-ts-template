@@ -1,11 +1,13 @@
 import { execFile } from "node:child_process";
 import { loadProjectConfig } from "./shared/config.ts";
-import { compileMap } from "./compile.ts";
+import { compileMap, entryArgument } from "./compile.ts";
 import { logger, runCli } from "./shared/utils.ts";
 
 function main(): void {
   const config = loadProjectConfig();
-  const filename = compileMap(config);
+  const entry = entryArgument(Deno.args);
+  if (entry) logger.info(`Building with entry point ${entry}.`);
+  const filename = compileMap(config, undefined, entry);
   const executable = config.winePath || config.gameExecutable;
   const mapPath = config.winePath ? `Z:${filename.replace(/\//g, "\\")}` : filename;
   const args = [...(config.winePath ? [config.gameExecutable] : []), "-loadfile", mapPath, ...config.launchArgs];

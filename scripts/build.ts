@@ -2,7 +2,7 @@ import * as path from "@std/path";
 import { War3Map } from "./shared/warcraft-library.ts";
 import { getFilesInDirectory, logger, toArrayBuffer, runCli } from "./shared/utils.ts";
 import { loadProjectConfig } from "./shared/config.ts";
-import { compileMap } from "./compile.ts";
+import { compileMap, entryArgument } from "./compile.ts";
 
 function main() {
   const config = loadProjectConfig();
@@ -12,7 +12,9 @@ function main() {
     logger.info('Enabling minification from command line argument "-minify".');
     config.minifyScript = minify;
   }
-  const mapDir = compileMap(config);
+  const entry = entryArgument(Deno.args);
+  if (entry) logger.info(`Building with entry point ${entry}.`);
+  const mapDir = compileMap(config, undefined, entry);
 
   logger.info(`Creating w3x archive...`);
   Deno.mkdirSync(config.outputFolder, { recursive: true });

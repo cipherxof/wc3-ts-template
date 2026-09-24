@@ -16,6 +16,7 @@ import { plugin as wcraftLintPlugin } from "../lint/wcraft-rules.ts";
 import { validateJsonSyntax, validateProjectJsonFiles } from "../tooling/validate-json.ts";
 import "./assets.ts";
 import "./map-settings.ts";
+import "./library.ts";
 
 test("unit aliases, null inheritance, lists and explicit property overrides", () => {
   const data = new ObjectData();
@@ -247,7 +248,7 @@ test("Deno file staging and MPQ packaging preserve nested binary data", () => {
 test("checked-in base map packages without changing its metadata or assets", () => {
   const dir = Deno.makeTempDirSync({ prefix: "w3ts-base-map-tests-" });
   try {
-    const source = path.fromFileUrl(new URL("../../maps/map.w3x/", import.meta.url));
+    const source = path.resolve("maps", loadProjectConfig().mapFolder);
     const archive = path.join(dir, "base.w3x");
     createMapFromDir(archive, source);
     const map = new War3Map();
