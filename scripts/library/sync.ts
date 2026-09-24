@@ -9,6 +9,11 @@
 //
 // Sources: the version locked in deno.lock, downloaded from JSR (checked against the registry's
 // checksums), or a local checkout linked through deno.json "links" (always re-copied).
+//
+// `deno publish` rewrites a package's bare imports into registry specifiers (`w3ts/hooks` becomes
+// `npm:w3ts@3.0.2/hooks`, a self-import becomes `jsr:@scope/name@^1.0.0/x`). TypeScriptToLua can't
+// resolve those, so the copies get bare specifiers back, which the map resolves through its
+// tsconfig "paths" and node_modules.
 import * as path from "@std/path";
 import * as posix from "@std/path/posix";
 import { existsSync } from "@std/fs";
@@ -34,6 +39,20 @@ function readJson<T>(file: string): T {
 
 function registry(): string {
   return (Deno.env.get("JSR_URL") ?? "https://jsr.io/").replace(/\/?$/, "/");
+}
+
+const REGISTRY_SPECIFIER = /(["'])(?:jsr:\/?(@[^/@"']+\/[^/@"']+)|npm:\/?((?:@[^/@"']+\/)?[^/@"']+))@[^/"']*(\/[^"']*)?\1/g;
+
+/** Turn `jsr:`/`npm:` specifiers written by `deno publish` back into bare ones (`npm:w3ts@3.0.2/hooks` -> `w3ts/hooks`). */
+export function bareSpecifiers(source: string): string {
+  return source.replace(REGISTRY_SPECIFIER, (_match, quote: string, jsr?: string, npm?: string, subpath?: string) =>
+    `${quote}${jsr ?? npm}${subpath ?? ""}${quote}`);
+}
+
+function writeSource(dest: string, bytes: Uint8Array): void {
+  const text = new TextDecoder().decode(bytes);
+  const bare = bareSpecifiers(text);
+  Deno.writeFileSync(dest, bare === text ? bytes : new TextEncoder().encode(bare));
 }
 
 /** A local checkout linked in deno.json "links" whose deno.json has this package name. */
@@ -145,7 +164,7 @@ async function fromRegistry(name: string, version: string, target: string): Prom
     if (await sha256(bytes) !== entry.checksum) throw new Error(`Checksum mismatch for ${name}@${version}${file}`);
     const dest = path.join(target, file);
     await Deno.mkdir(path.dirname(dest), { recursive: true });
-    await Deno.writeFile(dest, bytes);
+    writeSource(dest, bytes);
   }
   return meta.exports;
 }
@@ -162,7 +181,7 @@ function fromLink(dir: string, target: string): Record<string, string> {
       if (entry.isDirectory) copy(child);
       else if (entry.isFile && entry.name.endsWith(".ts")) {
         Deno.mkdirSync(path.join(target, relative), { recursive: true });
-        Deno.copyFileSync(path.join(dir, child), path.join(target, child));
+        writeSource(path.join(target, child), Deno.readFileSync(path.join(dir, child)));
       }
     }
   };

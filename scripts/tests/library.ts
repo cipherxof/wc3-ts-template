@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import * as path from "@std/path";
-import { exportPaths, librariesInSync, syncLibraries, writeLibraryPaths } from "../library/sync.ts";
+import { bareSpecifiers, exportPaths, librariesInSync, syncLibraries, writeLibraryPaths } from "../library/sync.ts";
 import { createBuildConfig, entryArgument } from "../compile.ts";
 import { loadProjectConfig } from "../shared/config.ts";
 import { loadJsonFile, removeIfExists } from "../shared/files.ts";
@@ -43,6 +43,25 @@ test("library exports map to version-less paths inside .lib", () => {
     "@demo/lib": ["./.lib/@demo/lib/mod.ts"],
     "@demo/lib/physics/knockback": ["./.lib/@demo/lib/physics/knockback/index.ts"],
   });
+});
+
+test("registry specifiers written by deno publish become bare again", () => {
+  const published = [
+    'import { W3TS_HOOK, addScriptHook } from "npm:w3ts@3.0.2/hooks";',
+    'import { Scheduler } from "jsr:@mdlsvensson/wc3-lib@^0.1.0/core/scheduler";',
+    "import type { X } from 'npm:@types/x@1.2.3';",
+    'import { y } from "jsr:/@scope/name@1/y.ts";',
+    'import { z } from "./z.ts";',
+    'const text = "npm: is not a specifier";',
+  ].join("\r\n");
+  assert.equal(bareSpecifiers(published), [
+    'import { W3TS_HOOK, addScriptHook } from "w3ts/hooks";',
+    'import { Scheduler } from "@mdlsvensson/wc3-lib/core/scheduler";',
+    "import type { X } from '@types/x';",
+    'import { y } from "@scope/name/y.ts";',
+    'import { z } from "./z.ts";',
+    'const text = "npm: is not a specifier";',
+  ].join("\r\n"));
 });
 
 test("library paths replace only .lib entries and leave tsconfig alone when unchanged", () => {
